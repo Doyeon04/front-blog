@@ -1,0 +1,13 @@
+.container {
+  background-color: rgb(99, 163, 219);
+  height: 800px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.contentBox {
+  background-color: white;
+  width: 80%;
+  height: 80%;
+}
