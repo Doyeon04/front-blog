@@ -1,0 +1,18 @@
+.container {
+  display: flex;
+  padding-top: 130px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.Form {
+  width: 80%;
+}
+.form-control {
+  outline: none !important;
+  color: red;
+  border: 0;
+}
+Button {
+  width: 80%;
+}

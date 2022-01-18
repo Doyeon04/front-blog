@@ -25,7 +25,7 @@ const Header = (props) => {
         <Nav className="me-auto">
           <Nav.Link href="#home">Home</Nav.Link>
           <Nav.Link href="#features">neighbor</Nav.Link>
-          <Nav.Link href="#write">글쓰기</Nav.Link>
+          <Nav.Link href={`/writeContent`}>글쓰기</Nav.Link>
         </Nav>
       </div>
     </Navbar>
