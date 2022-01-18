@@ -1,16 +1,14 @@
 import "./App.css";
-import Header from './component/header/Header'
-import TitleBox from './component/titleBox/titleBox'
+import { BrowserRouter, Router, Routes, Route } from "react-router-dom";
+import Home from "./routes/Home";
 
 function App() {
   return (
-    <div className="App"
-    style ={{
-      height: '1000vh'
-    }}>
-      <Header></Header>
-      <TitleBox></TitleBox>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />}></Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
