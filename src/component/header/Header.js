@@ -19,11 +19,11 @@ const Header = (props) => {
       variant="light"
     >
       <div>
-        <Navbar.Brand href={`/`}>blogg</Navbar.Brand>
+        <Navbar.Brand href="/">blogg</Navbar.Brand>
       </div>
       <div>
         <Nav className="me-auto">
-          <Nav.Link href={`/`}>Home</Nav.Link>
+          <Nav.Link href="/">Home</Nav.Link>
           <Nav.Link href="#features">neighbor</Nav.Link>
           <Nav.Link href={`/writeContent`}>글쓰기</Nav.Link>
         </Nav>
