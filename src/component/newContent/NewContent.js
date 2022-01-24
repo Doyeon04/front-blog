@@ -3,7 +3,10 @@ import styles from "./NewContent.module.css";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Header from "../header/Header";
+import axios from "axios";
+
 const NewContent = (props) => {
+ 
   return (
     <div className={styles.container}>
       <Header />
