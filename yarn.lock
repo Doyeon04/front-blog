@@ -4287,8 +4287,11 @@
   "version" "3.2.4"
 
 "follow-redirects@^1.0.0", "follow-redirects@^1.14.7":
+<<<<<<< HEAD
   "integrity" "sha512-+hbxoLbFMbRKDwohX8GkTataGqO6Jb7jGwpAlwgy2bIz25XtRm7KEzJM76R1WiNT5SwZkX4Y75SwBolkpmE7iQ=="
   "resolved" "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.14.7.tgz"
+=======
+>>>>>>> 41d18b1e348f03b88e9723943dbefd93565fd459
   "version" "1.14.7"
 
 "fork-ts-checker-webpack-plugin@^6.5.0":
@@ -7199,8 +7202,11 @@
     "prop-types" "^15.6.2"
 
 "react@*", "react@^16.8.0 || ^17.0.0-rc.1", "react@^17.0.2", "react@>= 16", "react@>=0.14.0", "react@>=15.0.0", "react@>=16.0.0", "react@>=16.14.0", "react@>=16.6.0", "react@>=16.8", "react@>=16.8.0", "react@17.0.2":
+<<<<<<< HEAD
   "integrity" "sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA=="
   "resolved" "https://registry.npmjs.org/react/-/react-17.0.2.tgz"
+=======
+>>>>>>> 41d18b1e348f03b88e9723943dbefd93565fd459
   "version" "17.0.2"
   dependencies:
     "loose-envify" "^1.1.0"
