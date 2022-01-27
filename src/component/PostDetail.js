@@ -5,6 +5,8 @@ import { useState, useEffect  } from "react";
 import Header from "./header/Header";
 import styles from "./PostDetail.module.css";
 import {Link,useNavigate} from "react-router-dom";
+import Content from "./content/Content";
+
 
 function PostDetail(props) {
   const { postId } = useParams();
@@ -28,8 +30,10 @@ function PostDetail(props) {
     //원래 페이지로 돌아가기 
 
   }
+  const [title, setTitle] = useState();
+  const [content, setContent] = useState();
 
-  console.log(props.location);
+  console.log(postId);
 
   useEffect(() => {
     axios
@@ -37,6 +41,11 @@ function PostDetail(props) {
       .then((response) => {
         // response
         console.log("content:", response);
+        console.log(response.data.title);
+        console.log(response.data.content);
+
+        setTitle(response.data.title);
+        setContent(response.data.content);
       })
       .catch((error) => {
         // 오류발생시 실행
@@ -46,17 +55,38 @@ function PostDetail(props) {
       });
   }, []);
 
+  const implementPut = () =>{
+    axios.put(`http://localhost:8080/api/posts/${postId}`, {
+     "content": "string",
+    "id": 0,
+  "title": "string"
+    }).then(res =>{
+      console.log(res);
+    }).catch(err =>{
+      console.log(err)
+    })
+  }
+
   return (
     <div>
       <div>
         <Header></Header>
-      </div>
-      <div className={styles.BtnContainer}>
-      <button>수정</button>
-     <div>
-       <button onClick = {onDelete}>삭제</button>
-       </div>
-           
+      </div>      
+      <div className={styles.postContainer}>
+        <div className={styles.postTitle}>{title}</div>
+        <div className={styles.postContent}>{content}</div>
+        <div className={styles.BtnContainer}>
+          <Link
+            to={{
+            pathname: `/modify`,
+            state: {
+              id: postId
+            }
+          }}>
+          <button className={styles.Btn}>수정</button>
+          </Link>
+          <button className={styles.Btn} onClick = {onDelete}>삭제</button>
+        </div>
       </div>
     </div>
   );

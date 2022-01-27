@@ -1,23 +1,22 @@
 import React from "react";
-import styles from "./NewContent.module.css";
+import styles from "./modify.module.css";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Header from "../header/Header";
 import axios from "axios";
-import { useNavigate, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import {useLocation} from 'react-router-dom';
 
-const NewContent = (props) => {
-  let navigate = useNavigate();
-
+const Modify = (props) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
   const onChangeTitle = (event) => setTitle(event.target.value);
   const onChangeContent = (event) => setContent(event.target.value);
 
-  console.log("title:", title);
-  console.log("content:", content);
+  const obj = useLocation(); 
+  
+  console.log(obj)
 
   const submit = () => {
     axios
@@ -33,7 +32,7 @@ const NewContent = (props) => {
         // 오류발생시 실행
       })
       .then(() => {
-       navigate('/')
+        // 항상 실행
       });
     console.log(`등록완료. content: ${content}, title: ${title}`);
   };
@@ -66,10 +65,9 @@ const NewContent = (props) => {
           />
         </Form.Group>
       </Form>
-     
       <Button onClick={submit}>등록</Button>
     </div>
   );
 };
 
-export default NewContent;
+export default Modify;
