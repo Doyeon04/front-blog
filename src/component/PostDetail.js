@@ -3,10 +3,14 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import Header from "./header/Header";
 import styles from "./PostDetail.module.css";
+import Content from "./content/Content";
+import {Link} from 'react-router-dom';
 
 function PostDetail(props) {
   const { postId } = useParams();
   const { state } = useLocation();
+  const [title, setTitle] = useState();
+  const [content, setContent] = useState();
 
   console.log(postId);
 
@@ -16,6 +20,11 @@ function PostDetail(props) {
       .then((response) => {
         // response
         console.log("content:", response);
+        console.log(response.data.title);
+        console.log(response.data.content);
+
+        setTitle(response.data.title);
+        setContent(response.data.content);
       })
       .catch((error) => {
         // 오류발생시 실행
@@ -42,9 +51,22 @@ function PostDetail(props) {
       <div>
         <Header></Header>
       </div>
-      <div className={styles.BtnContainer}>
-        <button onClick = {implementPut}>수정</button>
-        <button>삭제</button>
+
+      <div className={styles.postContainer}>
+        <div className={styles.postTitle}>{title}</div>
+        <div className={styles.postContent}>{content}</div>
+        <div className={styles.BtnContainer}>
+          <Link
+            to={{
+            pathname: `/modify`,
+            state: {
+              id: postId
+            }
+          }}>
+          <button className={styles.Btn}>수정</button>
+          </Link>
+          <button className={styles.Btn}>삭제</button>
+        </div>
       </div>
     </div>
   );
