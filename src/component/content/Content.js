@@ -31,9 +31,7 @@ const Content = (props) => {
 
 
   useEffect(() => {
-   
-   
-
+  
     axios
       .get("http://localhost:8080/api/posts")
       .then((response) => {
