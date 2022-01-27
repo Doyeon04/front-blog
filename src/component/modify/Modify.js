@@ -5,25 +5,37 @@ import Form from "react-bootstrap/Form";
 import Header from "../header/Header";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import {useLocation} from 'react-router-dom';
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Modify = (props) => {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const baseTitle = useLocation().state.title;
+  const baseContent = useLocation().state.content;
+  const postId = useLocation().state.postId;
+  const navigate = useNavigate();
 
-  const onChangeTitle = (event) => setTitle(event.target.value);
-  const onChangeContent = (event) => setContent(event.target.value);
+  const [editedTitle, setEditedTitle] = useState(baseTitle);
+  const [editedContent, setEditedContent] = useState(baseContent);
 
-  const obj = useLocation(); 
-  
-  console.log(obj)
+  //const [id, setId] = useState(postId);
+  //setId(useLocation().state.content.postId);
 
-  const submit = () => {
+  console.log("postId:", useLocation().state.postId);
+  console.log(postId);
+
+  const onEditChangeTitle = (e) => {
+    setEditedTitle(e.target.value);
+  };
+
+  const onEditChangeContent = (e) => {
+    setEditedContent(e.target.value);
+  };
+
+  const Submit = () => {
     axios
-      .post("http://localhost:8080/api/posts", {
-        content: content,
-        id: "0",
-        title: title,
+      .put(`http://localhost:8080/api/posts/${postId}`, {
+        content: editedContent,
+        id: postId,
+        title: editedTitle,
       })
       .then((response) => {
         // response
@@ -33,8 +45,8 @@ const Modify = (props) => {
       })
       .then(() => {
         // 항상 실행
+        navigate("/");
       });
-    console.log(`등록완료. content: ${content}, title: ${title}`);
   };
 
   return (
@@ -46,13 +58,15 @@ const Modify = (props) => {
           <Form.Control
             type="text"
             placeholder="name@example.com"
-            onChange={onChangeTitle}
+            onChange={onEditChangeTitle}
+            value={editedTitle}
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
           <Form.Label>내용</Form.Label>
           <Form.Control
-            onChange={onChangeContent}
+            value={editedContent}
+            onChange={onEditChangeContent}
             className="form-control"
             as="textarea"
             placeholder="example"
@@ -65,7 +79,7 @@ const Modify = (props) => {
           />
         </Form.Group>
       </Form>
-      <Button onClick={submit}>등록</Button>
+      <Button onClick={Submit}>등록</Button>
     </div>
   );
 };
