@@ -5,6 +5,7 @@ import Home from "./routes/Home";
 import NewContent from "./component/newContent/NewContent";
 import Header from "./component/header/Header.js";
 import axios from "axios";
+import PostDetail from "./component/PostDetail.js";
 
 function App() {
   const [items, setItems] = useState([]);
@@ -14,6 +15,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/writeContent" element={<NewContent />}></Route>
+        <Route path="/:postId" element={<PostDetail />}></Route>
       </Routes>
     </BrowserRouter>
   );
