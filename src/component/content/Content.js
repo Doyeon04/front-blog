@@ -73,12 +73,8 @@ const Content = (props) => {
   return (
     <div className={styles.container}>
       <div className={styles.contentBox}>
-        <Masonry
-          breakpointCols={breakpointColumnsObj}
-          className="my-masonry-grid"
-          columnClassName="my-masonry-grid_column"
-        >
-          <div>
+        <div className={styles.masonry_container}>
+          
             {items.map((item) => (
               <Link
                 to={{
@@ -89,8 +85,8 @@ const Content = (props) => {
                 <div key={item.id}>{item.title}</div>
               </Link>
             ))}
+          
           </div>
-        </Masonry>
       </div>
     </div>
   );
