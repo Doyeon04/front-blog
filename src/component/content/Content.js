@@ -74,19 +74,12 @@ const Content = (props) => {
     <div className={styles.container}>
       <div className={styles.contentBox}>
         <div className={styles.masonry_container}>
-          
-            {items.map((item) => (
-              <Link
-                to={{
-                  pathname: `/${item.id}`,
-                  state: { title: item.title },
-                }}
-              >
-                <div key={item.id}>{item.title}</div>
-              </Link>
-            ))}
-          
-          </div>
+          {items.map((item) => (
+            <Link to={`/${item.postsId}`} state={{ title: item.title }}>
+              <div key={item.postsId}>{item.title}</div>
+            </Link>
+          ))}
+        </div>
       </div>
     </div>
   );

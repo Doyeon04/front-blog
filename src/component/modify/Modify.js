@@ -34,7 +34,7 @@ const Modify = (props) => {
     axios
       .put(`http://localhost:8080/api/posts/${postId}`, {
         content: editedContent,
-        id: postId,
+        postsId: postId,
         title: editedTitle,
       })
       .then((response) => {
