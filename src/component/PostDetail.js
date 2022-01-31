@@ -18,7 +18,7 @@ function PostDetail(props) {
       .delete(`http://localhost:8080/api/posts/${postId}`)
       .then((response) => {
         // response
-        console.log("content:", response);
+        //console.log("content:", response);
       })
       .catch((error) => {
         // 오류발생시 실행
@@ -36,19 +36,12 @@ function PostDetail(props) {
 
   const textRef = useRef();
 
-
-  console.log(postId);
-
   useEffect(() => {
     axios
       .get(`http://localhost:8080/api/posts/${postId}`)
       .then((response) => {
-        // response
-        let result = response.data.replyDtoList.map(a => a.content);
-        console.log(result)
-         setComments(comments => [...comments, {result}])
-         
-        console.log(comments);
+        let result = response.data.replyDtoList;
+        setCommentFunc(result);
 
         setTitle(response.data.title);
         setContent(response.data.content);
@@ -61,15 +54,28 @@ function PostDetail(props) {
       });
   }, []);
 
-
-  const replySubmit = () =>{
+  const setCommentFunc = (array) => {
+    setComments(array);
+  };
+  const replySubmit = () => {
     let text = textRef.current.value;
-    
-    axios.post('http://localhost:8080/api/reply', {
-        "content": text,
-        "postsId": postId
-    })
-  }
+    textRef.current.value = "";
+    axios
+      .post("http://localhost:8080/api/reply", {
+        content: text,
+        postsId: postId,
+      })
+      .then((response) => {
+        let result = response.data.replyDtoList;
+        setCommentFunc(result);
+      })
+      .catch((error) => {
+        // 오류발생시 실행
+      })
+      .then(() => {
+        // 항상 실행
+      });
+  };
 
   return (
     <div>
@@ -81,19 +87,16 @@ function PostDetail(props) {
         <div className={styles.postContent}>{content}</div>
 
         <div>
-          <input 
-           ref = {textRef} 
-           type = "text"
-           onKeyPress = {(e) =>{
-             if(e.key == "Enter"){
-               textRef.current.value = "";
-             }
-           }
-
-           }
-           />
-          <button onClick= {replySubmit}>submit</button>
-          
+          <input
+            ref={textRef}
+            type="text"
+            onKeyPress={(e) => {
+              if (e.key == "Enter") {
+                textRef.current.value = "";
+              }
+            }}
+          />
+          <button onClick={replySubmit}>submit</button>
         </div>
 
         <div className={styles.BtnContainer}>
@@ -110,9 +113,13 @@ function PostDetail(props) {
           <button className={styles.Btn} onClick={onDelete}>
             삭제
           </button>
-
-         
-
+        </div>
+        <div className={styles.commentBox}>
+          <ul>
+            {comments.map((reply) => (
+              <li key={reply.replyId}>{reply.content}</li>
+            ))}
+          </ul>
         </div>
       </div>
     </div>
