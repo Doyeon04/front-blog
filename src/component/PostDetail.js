@@ -12,10 +12,12 @@ function PostDetail(props) {
   const { postId } = useParams();
   const { state } = useLocation();
   const navigate = useNavigate();
+  const [childReply, setChildReply] = useState(false);
+
   console.log("postId:", postId);
 
   //const token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaXNzIjoiYmxvZyBwcm9qZWN0IiwiaWF0IjoxNjQ0MDQyNDcwLCJleHAiOjE2NTI2ODI0NzB9.NCoq6o8qLnWoBqw6ob3gOhVDR87ZGgruPiGeWEhyfOugC3ZNjCFFcF-Dn7xUInFYfNv8XY-yKznCQWqj8qX1rw";
-
+  
   const onDelete = (event) => {
     event.preventDefault();
 
@@ -46,7 +48,7 @@ function PostDetail(props) {
   const [title, setTitle] = useState();
   const [content, setContent] = useState();
   const [comments, setComments] = useState([]);
-
+  
   const textRef = useRef();
 
   useEffect(() => {
@@ -111,7 +113,23 @@ function PostDetail(props) {
         console.log(error);
       });
   };
-
+  const createChildReply = (replyId)=>{
+    console.log("value:",replyId);
+    console.log("comments",comments);
+    comments.map((order)=>{
+      console.log("order",order.replyId);
+      if(order.replyId===replyId){ 
+        setChildReply(true);
+        const parent = document.getelementById(replyId);
+        if(parent.childNodes ===null){
+          return <input type="text" />
+        }
+      
+      };
+    })
+   //  const ex = document.getElementByIdId(data);
+     //setChildReply((current)=>(!current));
+   }
   return (
     <div>
       <div>
@@ -152,7 +170,10 @@ function PostDetail(props) {
         <div className={styles.commentBox}>
           <ul>
             {comments.map((reply) => (
-              <li key={reply.replyId}>{reply.content}</li>
+              <li key={reply.replyId}>{reply.content} 
+              <button id={reply.replyId} onClick={(e)=>createChildReply(reply.replyId)}>+</button>
+              {childReply ? <input type="text" /> : null}
+              </li>
             ))}
           </ul>
         </div>
