@@ -6,10 +6,11 @@ import { useState, useEffect } from "react";
 import Masonry from "react-masonry-css";
 import { Link } from "react-router-dom";
 import PostDetail from "../PostDetail";
+import { token } from "../Api";
 
 const Content = (props) => {
   const [items, setItems] = useState([]);
-  const token = localStorage.getItem("token");
+  //const token = localStorage.getItem("token");
 
   /*
   for (let i = 132; i < 135; i++) {
