@@ -57,7 +57,7 @@ const Content = (props) => {
   }, []);
 
   //localhost:8080/api/posts/2
-  const datas = items.map(function (item) {
+  /* const datas = items.map(function (item) {
     return (
       <Link
         to={{
@@ -68,7 +68,7 @@ const Content = (props) => {
         <div key={item.id}>{item.title}</div>
       </Link>
     );
-  });
+  }); */
 
   return (
     <div className={styles.container}>

@@ -18,7 +18,7 @@ function PostDetail(props) {
       .delete(`http://localhost:8080/api/posts/${postId}`)
       .then((response) => {
         // response
-        console.log("content:", response);
+        //console.log("content:", response);
       })
       .catch((error) => {
         // 오류발생시 실행
@@ -35,16 +35,19 @@ function PostDetail(props) {
 
   const textRef = useRef();
 
-
-  console.log(postId);
-
   useEffect(() => {
     axios
       .get(`http://localhost:8080/api/posts/${postId}`)
       .then((response) => {
+<<<<<<< HEAD
         // response
         let result = response.data.replyDtoList.map((a) => a.content);
         setComments(comments => [...comments, {result}])
+=======
+        let result = response.data.replyDtoList;
+        setCommentFunc(result);
+
+>>>>>>> 4505d24fe62a5098244fc4544404935cbb7c1f32
         setTitle(response.data.title);
         setContent(response.data.content);
       })
@@ -56,6 +59,7 @@ function PostDetail(props) {
       });
   }, []);
 
+<<<<<<< HEAD
 
   const replySubmit = (event) =>{
     event.preventDefault();
@@ -98,6 +102,30 @@ function PostDetail(props) {
       // setComments((comments) => [...comments, {result}]);
     } )
   }
+=======
+  const setCommentFunc = (array) => {
+    setComments(array);
+  };
+  const replySubmit = () => {
+    let text = textRef.current.value;
+    textRef.current.value = "";
+    axios
+      .post("http://localhost:8080/api/reply", {
+        content: text,
+        postsId: postId,
+      })
+      .then((response) => {
+        let result = response.data.replyDtoList;
+        setCommentFunc(result);
+      })
+      .catch((error) => {
+        // 오류발생시 실행
+      })
+      .then(() => {
+        // 항상 실행
+      });
+  };
+>>>>>>> 4505d24fe62a5098244fc4544404935cbb7c1f32
 
   return (
     <div>
@@ -109,6 +137,7 @@ function PostDetail(props) {
         <div className={styles.postContent}>{content}</div>
 
         <div>
+<<<<<<< HEAD
           <form>
           <input 
            ref = {textRef} 
@@ -124,6 +153,18 @@ function PostDetail(props) {
            />
           <button onClick= {replySubmit}>submit</button>
           </form>
+=======
+          <input
+            ref={textRef}
+            type="text"
+            onKeyPress={(e) => {
+              if (e.key == "Enter") {
+                textRef.current.value = "";
+              }
+            }}
+          />
+          <button onClick={replySubmit}>submit</button>
+>>>>>>> 4505d24fe62a5098244fc4544404935cbb7c1f32
         </div>
 
         <div className={styles.BtnContainer}>
@@ -140,9 +181,13 @@ function PostDetail(props) {
           <button className={styles.Btn} onClick={onDelete}>
             삭제
           </button>
-
-         
-
+        </div>
+        <div className={styles.commentBox}>
+          <ul>
+            {comments.map((reply) => (
+              <li key={reply.replyId}>{reply.content}</li>
+            ))}
+          </ul>
         </div>
       </div>
     </div>
