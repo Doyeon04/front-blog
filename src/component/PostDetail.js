@@ -12,9 +12,11 @@ function PostDetail(props) {
   const { state } = useLocation();
   const navigate = useNavigate();
 
+  const token = localStorage.getItem("token");
+
   const onDelete = (event) => {
     event.preventDefault();
-    axios
+    /*  axios
       .delete(`http://localhost:8080/api/posts/${postId}`)
       .then((response) => {
         // response
@@ -27,7 +29,28 @@ function PostDetail(props) {
         // 항상 실행
         navigate("/");
       });
-    //원래 페이지로 돌아가기
+      
+    //원래 페이지로 돌아가기 */
+
+    var axios = require("axios");
+    var data = JSON.stringify("string");
+
+    var config = {
+      method: "delete",
+      url: "http://localhost:8080/api/posts/1",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
   const [title, setTitle] = useState();
   const [content, setContent] = useState();
@@ -36,7 +59,7 @@ function PostDetail(props) {
   const textRef = useRef();
 
   useEffect(() => {
-    axios
+    /* axios
       .get(`http://localhost:8080/api/posts/${postId}`)
       .then((response) => {
         let result = response.data.replyDtoList;
@@ -50,6 +73,31 @@ function PostDetail(props) {
       })
       .then(() => {
         // 항상 실행
+      }); */
+    var axios = require("axios");
+    var data = JSON.stringify({});
+
+    var config = {
+      method: "get",
+      url: `http://localhost:8080/api/posts/${postId}`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      data: data,
+    };
+
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+        let result = response.data.replyDtoList;
+        setCommentFunc(result);
+
+        setTitle(response.data.title);
+        setContent(response.data.content);
+      })
+      .catch(function (error) {
+        console.log(error);
       });
   }, []);
 

@@ -59,8 +59,7 @@ function SignUp() {
   }
   return (
     <div>
-      <Header />
-      <Exform type="submit" onSubmit={enroll}>
+      <form type="submit" onSubmit={enroll}>
         <h2>회원가입</h2>
         <div>
           <label>사용자 이름</label>
@@ -83,7 +82,7 @@ function SignUp() {
         <div>
           <button>입력</button>
         </div>
-      </Exform>
+      </form>
     </div>
   );
 }
