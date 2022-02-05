@@ -6,8 +6,8 @@ import NewContent from "./component/newContent/NewContent";
 import Header from "./component/header/Header.js";
 import axios from "axios";
 import PostDetail from "./component/PostDetail.js";
-import Modify from './component/modify/Modify.js'
-
+import Modify from './component/modify/Modify.js';
+import Login from "./component/Login.js";
 function App() {
   const [items, setItems] = useState([]);
 
@@ -18,6 +18,8 @@ function App() {
         <Route path="/writeContent" element={<NewContent />}></Route>
         <Route path="/:postId" element={<PostDetail />}></Route>
          <Route path="/modify" element={<Modify />}></Route>
+         <Route path="/Login" element={<Login />}></Route>
+         
       </Routes>
     </BrowserRouter>
   );

@@ -39,15 +39,9 @@ function PostDetail(props) {
     axios
       .get(`http://localhost:8080/api/posts/${postId}`)
       .then((response) => {
-<<<<<<< HEAD
-        // response
-        let result = response.data.replyDtoList.map((a) => a.content);
-        setComments(comments => [...comments, {result}])
-=======
         let result = response.data.replyDtoList;
         setCommentFunc(result);
 
->>>>>>> 4505d24fe62a5098244fc4544404935cbb7c1f32
         setTitle(response.data.title);
         setContent(response.data.content);
       })
@@ -59,50 +53,6 @@ function PostDetail(props) {
       });
   }, []);
 
-<<<<<<< HEAD
-
-  const replySubmit = (event) =>{
-    event.preventDefault();
-    
-   let text = textRef.current.value; 
- 
-    console.log(text);
-    axios.post('http://localhost:8080/api/reply', {
-        "content": text,
-        "postsId": postId,
-    }
-  
-    ).then((response)=>{
-      // let result = response.data.replyDtoList.map((a) => a.content);
-      // console.log("result:",result);
-      //  setComments((comments) => [...comments, {result}])
-      let result = response.data.replyDtoList.map((a) => a.content);
-      result.push(text);
-      console.log(comments===result);
-      let temp = result;
-      console.log(temp===comments);
-      setComments((state,props)=>{
-        return {temp};
-      });
-   //   setComments(temp);
-      setTitle(response.data.title);
-      setContent(response.data.content);
-      console.log("comment:",comments);
-        // axios
-        // .get(`http://localhost:8080/api/posts/${postId}`)
-        // .then((response)=>{
-        //   let result = response.data.replyDtoList.map((a) => a.content);
-        //    console.log("results",result);
-        // });
-    
-      // const {
-      //   "content" : text,
-      //   "postsId":postId,
-      // } = ex;
-      // setComments((comments) => [...comments, {result}]);
-    } )
-  }
-=======
   const setCommentFunc = (array) => {
     setComments(array);
   };
@@ -125,7 +75,6 @@ function PostDetail(props) {
         // 항상 실행
       });
   };
->>>>>>> 4505d24fe62a5098244fc4544404935cbb7c1f32
 
   return (
     <div>
@@ -137,23 +86,6 @@ function PostDetail(props) {
         <div className={styles.postContent}>{content}</div>
 
         <div>
-<<<<<<< HEAD
-          <form>
-          <input 
-           ref = {textRef} 
-           type = "text"
-           onKeyPress = {(e) =>{
-             if(e.key == "Enter"){
-               
-               textRef.current.value = "";
-             }
-           }
-
-           }
-           />
-          <button onClick= {replySubmit}>submit</button>
-          </form>
-=======
           <input
             ref={textRef}
             type="text"
@@ -164,7 +96,6 @@ function PostDetail(props) {
             }}
           />
           <button onClick={replySubmit}>submit</button>
->>>>>>> 4505d24fe62a5098244fc4544404935cbb7c1f32
         </div>
 
         <div className={styles.BtnContainer}>
