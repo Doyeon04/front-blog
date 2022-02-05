@@ -1,5 +1,9 @@
 import React, { useState, useRef } from "react";
 import Header from "../component/header/Header";
+import styled from "styled-components";
+const Exform=styled.form`
+  margin-top:200px;
+`;
 function SignUp() {
   let nameInputRef = useRef();
   let PWInputRef = useRef();
@@ -56,7 +60,7 @@ function SignUp() {
   return (
     <div>
       <Header />
-      <form type="submit" onSubmit={enroll}>
+      <Exform type="submit" onSubmit={enroll}>
         <h2>회원가입</h2>
         <div>
           <label>사용자 이름</label>
@@ -79,7 +83,7 @@ function SignUp() {
         <div>
           <button>입력</button>
         </div>
-      </form>
+      </Exform>
     </div>
   );
 }

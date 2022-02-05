@@ -16,8 +16,8 @@ function Login(){
         event.preventDefault();
         var axios = require('axios');
         var data = JSON.stringify({
-        "email": "string",
-        "password": "string"
+        "email": id,
+        "password": ps
         });
     
         var config = {
@@ -32,7 +32,7 @@ function Login(){
         axios(config)
         .then(function (response) {
         console.log(JSON.stringify(response.data));
-        if(response.data.token){
+        if(JSON.stringify(response.data.token)){
             window.location.href="/";
         }
         })
@@ -54,8 +54,8 @@ function Login(){
 return(
     <div>
         <LoginForm>
-            ID:<input value={id} onChange={handleSubmitId} type="text" />
-            PS:<input value={ps} onChange={handleSubmitPs} type="text" />
+            ID:<input value={id || ''} onChange={handleSubmitId} type="text" />
+            PS:<input value={ps || ''} onChange={handleSubmitPs} type="text" />
             <button onClick={replySubmit}>submit</button>
         </LoginForm>
         
