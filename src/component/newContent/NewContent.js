@@ -23,7 +23,7 @@ const NewContent = (props) => {
     axios
       .post("http://localhost:8080/api/posts", {
         content: content,
-        id: "0",
+        //id: "0",
         title: title,
       })
       .then((response) => {
@@ -33,7 +33,7 @@ const NewContent = (props) => {
         // 오류발생시 실행
       })
       .then(() => {
-       navigate('/')
+        navigate("/");
       });
     console.log(`등록완료. content: ${content}, title: ${title}`);
   };
@@ -66,7 +66,7 @@ const NewContent = (props) => {
           />
         </Form.Group>
       </Form>
-     
+
       <Button onClick={submit}>등록</Button>
     </div>
   );
