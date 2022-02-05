@@ -12,6 +12,10 @@ function PostDetail(props) {
   const { postId } = useParams();
   const { state } = useLocation();
   const navigate = useNavigate();
+  const [childReply, setChildReply] = useState(false);
+
+  const [clickChildReplyIndex, setClickChildReply] = useState();
+
   console.log("postId:", postId);
 
   //const token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaXNzIjoiYmxvZyBwcm9qZWN0IiwiaWF0IjoxNjQ0MDQyNDcwLCJleHAiOjE2NTI2ODI0NzB9.NCoq6o8qLnWoBqw6ob3gOhVDR87ZGgruPiGeWEhyfOugC3ZNjCFFcF-Dn7xUInFYfNv8XY-yKznCQWqj8qX1rw";
@@ -111,6 +115,51 @@ function PostDetail(props) {
         console.log(error);
       });
   };
+  const createChildReply = (replyId) => {
+    setChildReply((current) => !current);
+    setClickChildReply(replyId);
+
+    /*  comments.map((order) => {
+      if (order.replyId === replyId) {
+        setChildReply((current) => !current);
+        setClickChildReply(replyId);
+      }
+    }); */
+  };
+
+  const [childReplyTyping, setChildReplyType] = useState();
+
+  /* const postChildReply = (e) => {
+    setChildReplyType(e.target.value);
+  }; */
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    var axios = require("axios");
+    var data = JSON.stringify({
+      content: childReplyTyping,
+      parentReplyId: clickChildReplyIndex,
+      postId: postId,
+    });
+
+    var config = {
+      method: "post",
+      url: "http://localhost:8080/api/reply",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      data: data,
+    };
+
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
 
   return (
     <div>
@@ -151,10 +200,30 @@ function PostDetail(props) {
         </div>
         <div className={styles.commentBox}>
           <ul>
-            {comments.map((reply) => (
-              <li key={reply.replyId}>{reply.content}</li>
+            {comments.map((reply, index) => (
+              <li key={reply.replyId}>
+                {reply.content}
+                <button
+                  id={reply.replyId}
+                  onClick={(e) => createChildReply(reply.replyId)}
+                >
+                  +
+                </button>
+                <form onSubmit={onSubmit}>
+                  {clickChildReplyIndex == index + 1 && childReply ? (
+                    <input
+                      type="text"
+                      onChange={(e) => {
+                        setChildReplyType(e.target.value);
+                      }}
+                    />
+                  ) : null}
+                  <button>댓글 등록</button>
+                </form>
+              </li>
             ))}
           </ul>
+          <span>{clickChildReplyIndex}</span>
         </div>
       </div>
     </div>
