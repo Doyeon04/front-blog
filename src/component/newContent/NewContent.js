@@ -6,9 +6,10 @@ import Header from "../header/Header";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { token } from "../Api";
 
 const NewContent = (props) => {
-  const token = localStorage.getItem("token");
+  //const token = localStorage.getItem("token");
   let navigate = useNavigate();
 
   const [title, setTitle] = useState("");

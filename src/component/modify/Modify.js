@@ -6,9 +6,10 @@ import Header from "../header/Header";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { token } from "../Api";
 
 const Modify = (props) => {
-  const token = localStorage.getItem("token");
+  //const token = localStorage.getItem("token");
 
   const baseTitle = useLocation().state.title;
   const baseContent = useLocation().state.content;

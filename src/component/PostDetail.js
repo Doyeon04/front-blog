@@ -6,30 +6,19 @@ import Header from "./header/Header";
 import styles from "./PostDetail.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import Content from "./content/Content";
+import { token } from "./Api";
 
 function PostDetail(props) {
   const { postId } = useParams();
   const { state } = useLocation();
   const navigate = useNavigate();
+  console.log("postId:", postId);
 
-  const token = localStorage.getItem("token");
+  //const token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaXNzIjoiYmxvZyBwcm9qZWN0IiwiaWF0IjoxNjQ0MDQyNDcwLCJleHAiOjE2NTI2ODI0NzB9.NCoq6o8qLnWoBqw6ob3gOhVDR87ZGgruPiGeWEhyfOugC3ZNjCFFcF-Dn7xUInFYfNv8XY-yKznCQWqj8qX1rw";
 
   const onDelete = (event) => {
     event.preventDefault();
-    /*  axios
-      .delete(`http://localhost:8080/api/posts/${postId}`)
-      .then((response) => {
-        // response
-        //console.log("content:", response);
-      })
-      .catch((error) => {
-        // 오류발생시 실행
-      })
-      .then(() => {
-        // 항상 실행
-        navigate("/");
-      });
-      
+
     //원래 페이지로 돌아가기 */
 
     var axios = require("axios");
@@ -37,9 +26,10 @@ function PostDetail(props) {
 
     var config = {
       method: "delete",
-      url: "http://localhost:8080/api/posts/1",
+      url: `http://localhost:8080/api/posts/${postId}`,
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
       },
       data: data,
     };
@@ -47,6 +37,7 @@ function PostDetail(props) {
     axios(config)
       .then(function (response) {
         console.log(JSON.stringify(response.data));
+        navigate("/");
       })
       .catch(function (error) {
         console.log(error);
@@ -59,21 +50,6 @@ function PostDetail(props) {
   const textRef = useRef();
 
   useEffect(() => {
-    /* axios
-      .get(`http://localhost:8080/api/posts/${postId}`)
-      .then((response) => {
-        let result = response.data.replyDtoList;
-        setCommentFunc(result);
-
-        setTitle(response.data.title);
-        setContent(response.data.content);
-      })
-      .catch((error) => {
-        // 오류발생시 실행
-      })
-      .then(() => {
-        // 항상 실행
-      }); */
     var axios = require("axios");
     var data = JSON.stringify({});
 
@@ -107,20 +83,32 @@ function PostDetail(props) {
   const replySubmit = () => {
     let text = textRef.current.value;
     textRef.current.value = "";
-    axios
-      .post("http://localhost:8080/api/reply", {
-        content: text,
-        postsId: postId,
+
+    var axios = require("axios");
+    var data = JSON.stringify({
+      content: text,
+      parentReplyId: 0,
+      postId: postId,
+    });
+
+    var config = {
+      method: "post",
+      url: "http://localhost:8080/api/reply",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      data: data,
+    };
+
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+
+        setCommentFunc(response.data.replyDtoList);
       })
-      .then((response) => {
-        let result = response.data.replyDtoList;
-        setCommentFunc(result);
-      })
-      .catch((error) => {
-        // 오류발생시 실행
-      })
-      .then(() => {
-        // 항상 실행
+      .catch(function (error) {
+        console.log(error);
       });
   };
 
