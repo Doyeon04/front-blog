@@ -8,6 +8,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 const NewContent = (props) => {
+  const token = localStorage.getItem("token");
   let navigate = useNavigate();
 
   const [title, setTitle] = useState("");
@@ -20,22 +21,30 @@ const NewContent = (props) => {
   console.log("content:", content);
 
   const submit = () => {
-    axios
-      .post("http://localhost:8080/api/posts", {
-        content: content,
-        //id: "0",
-        title: title,
-      })
-      .then((response) => {
-        // response
-      })
-      .catch((error) => {
-        // 오류발생시 실행
-      })
-      .then(() => {
+    var axios = require("axios");
+    var data = JSON.stringify({
+      content: content,
+      title: title,
+    });
+
+    var config = {
+      method: "post",
+      url: "http://localhost:8080/api/posts",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      data: data,
+    };
+
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
         navigate("/");
+      })
+      .catch(function (error) {
+        console.log(error);
       });
-    console.log(`등록완료. content: ${content}, title: ${title}`);
   };
 
   return (

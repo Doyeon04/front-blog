@@ -55,7 +55,6 @@ function SignUp() {
   }
   return (
     <div>
-      <Header />
       <form type="submit" onSubmit={enroll}>
         <h2>회원가입</h2>
         <div>

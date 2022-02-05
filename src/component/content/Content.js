@@ -9,6 +9,8 @@ import PostDetail from "../PostDetail";
 
 const Content = (props) => {
   const [items, setItems] = useState([]);
+  const token = localStorage.getItem("token");
+
   /*
   for (let i = 132; i < 135; i++) {
 
@@ -39,7 +41,7 @@ const Content = (props) => {
   };
 
   useEffect(() => {
-    axios
+    /* axios
       .get("http://localhost:8080/api/posts")
       .then((response) => {
         // response
@@ -53,6 +55,27 @@ const Content = (props) => {
       })
       .then(() => {
         // 항상 실행
+      }); */
+    var axios = require("axios");
+    var data = JSON.stringify({});
+
+    var config = {
+      method: "get",
+      url: "http://localhost:8080/api/posts",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      data: data,
+    };
+
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+        setItems(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
       });
   }, []);
 

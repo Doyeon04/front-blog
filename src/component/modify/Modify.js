@@ -8,6 +8,8 @@ import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const Modify = (props) => {
+  const token = localStorage.getItem("token");
+
   const baseTitle = useLocation().state.title;
   const baseContent = useLocation().state.content;
   const postId = useLocation().state.postId;
@@ -31,7 +33,7 @@ const Modify = (props) => {
   };
 
   const Submit = () => {
-    axios
+    /*  axios
       .put(`http://localhost:8080/api/posts/${postId}`, {
         content: editedContent,
         postsId: postId,
@@ -46,6 +48,30 @@ const Modify = (props) => {
       .then(() => {
         // 항상 실행
         navigate("/");
+      }); */
+    var axios = require("axios");
+    var data = JSON.stringify({
+      content: editedContent,
+      title: editedTitle,
+    });
+
+    var config = {
+      method: "put",
+      url: `http://localhost:8080/api/posts/${postId}`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      data: data,
+    };
+
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+        navigate("/");
+      })
+      .catch(function (error) {
+        console.log(error);
       });
   };
 
