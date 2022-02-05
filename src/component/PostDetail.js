@@ -31,7 +31,6 @@ function PostDetail(props) {
   };
   const [title, setTitle] = useState();
   const [content, setContent] = useState();
-
   const [comments, setComments] = useState([]);
 
   const textRef = useRef();
@@ -44,12 +43,8 @@ function PostDetail(props) {
       .get(`http://localhost:8080/api/posts/${postId}`)
       .then((response) => {
         // response
-        let result = response.data.replyDtoList.map(a => a.content);
-        console.log(result)
-         setComments(comments => [...comments, {result}])
-         
-        console.log(comments);
-
+        let result = response.data.replyDtoList.map((a) => a.content);
+        setComments(comments => [...comments, {result}])
         setTitle(response.data.title);
         setContent(response.data.content);
       })
@@ -62,13 +57,46 @@ function PostDetail(props) {
   }, []);
 
 
-  const replySubmit = () =>{
-    let text = textRef.current.value;
+  const replySubmit = (event) =>{
+    event.preventDefault();
     
+   let text = textRef.current.value; 
+ 
+    console.log(text);
     axios.post('http://localhost:8080/api/reply', {
         "content": text,
-        "postsId": postId
-    })
+        "postsId": postId,
+    }
+  
+    ).then((response)=>{
+      // let result = response.data.replyDtoList.map((a) => a.content);
+      // console.log("result:",result);
+      //  setComments((comments) => [...comments, {result}])
+      let result = response.data.replyDtoList.map((a) => a.content);
+      result.push(text);
+      console.log(comments===result);
+      let temp = result;
+      console.log(temp===comments);
+      setComments((state,props)=>{
+        return {temp};
+      });
+   //   setComments(temp);
+      setTitle(response.data.title);
+      setContent(response.data.content);
+      console.log("comment:",comments);
+        // axios
+        // .get(`http://localhost:8080/api/posts/${postId}`)
+        // .then((response)=>{
+        //   let result = response.data.replyDtoList.map((a) => a.content);
+        //    console.log("results",result);
+        // });
+    
+      // const {
+      //   "content" : text,
+      //   "postsId":postId,
+      // } = ex;
+      // setComments((comments) => [...comments, {result}]);
+    } )
   }
 
   return (
@@ -81,11 +109,13 @@ function PostDetail(props) {
         <div className={styles.postContent}>{content}</div>
 
         <div>
+          <form>
           <input 
            ref = {textRef} 
            type = "text"
            onKeyPress = {(e) =>{
              if(e.key == "Enter"){
+               
                textRef.current.value = "";
              }
            }
@@ -93,7 +123,7 @@ function PostDetail(props) {
            }
            />
           <button onClick= {replySubmit}>submit</button>
-          
+          </form>
         </div>
 
         <div className={styles.BtnContainer}>
