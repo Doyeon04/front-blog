@@ -25,6 +25,7 @@ const Header = (props) => {
         <Nav className="me-auto">
           <Nav.Link href="/">Home</Nav.Link>
           <Nav.Link href="#features">neighbor</Nav.Link>
+          <Nav.Link href={`/SignUp`}>회원가입</Nav.Link>
           <Nav.Link href={`/writeContent`}>글쓰기</Nav.Link>
         </Nav>
       </div>
