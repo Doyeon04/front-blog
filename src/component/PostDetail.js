@@ -9,6 +9,44 @@ import Content from "./content/Content";
 import { token } from "./Api";
 import styled from "styled-components";
 
+const CommentInput = styled.input`
+  width: 80%;
+  height: 50px;
+`;
+
+const CommentContainer = styled.div`
+  height: 800px;
+  background-color: antiquewhite;
+  padding: 50px;
+`;
+
+const CommentBox = styled.div`
+  display: flex;
+`;
+
+const CommentBtn = styled.button`
+  width: 50px;
+  height: 40px;
+  margin-left: 40px;
+`;
+
+const CommentsUl = styled.ul`
+  margin: 30px 0px;
+`;
+
+const CommentsLi = styled.li`
+  width: 100%;
+  padding: 20px;
+  list-style: none;
+  border-bottom: 1px solid gray;
+`;
+
+const OneComment = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+`;
+
 function PostDetail(props) {
   const { postId } = useParams();
   const { state } = useLocation();
@@ -42,7 +80,7 @@ function PostDetail(props) {
 
     axios(config)
       .then(function (response) {
-        console.log(JSON.stringify(response.data));
+        console.log(response.data);
         let result = response.data.replyDtoList;
         setCommentFunc(result);
 
@@ -138,7 +176,7 @@ function PostDetail(props) {
     setChildReplyType(e.target.value);
   }; */
 
-  const onSubmit = (e) => {
+  const childReplySubmit = (e) => {
     e.preventDefault();
     var axios = require("axios");
     var data = JSON.stringify({
@@ -159,7 +197,7 @@ function PostDetail(props) {
 
     axios(config)
       .then(function (response) {
-        console.log(JSON.stringify(response.data));
+        console.log(response.data);
         getResponse();
       })
       .catch(function (error) {
@@ -184,7 +222,6 @@ function PostDetail(props) {
 
     axios(config)
       .then(function (response) {
-        console.log("ddd", JSON.stringify(response.data));
         getResponse();
       })
       .catch(function (error) {
@@ -201,19 +238,6 @@ function PostDetail(props) {
         <div className={styles.postTitle}>{title}</div>
         <div className={styles.postContent}>{content}</div>
 
-        <div>
-          <input
-            ref={textRef}
-            type="text"
-            onKeyPress={(e) => {
-              if (e.key == "Enter") {
-                textRef.current.value = "";
-              }
-            }}
-          />
-          <button onClick={replySubmit}>submit</button>
-        </div>
-
         <div className={styles.BtnContainer}>
           <Link
             to={"/modify"}
@@ -229,26 +253,41 @@ function PostDetail(props) {
             삭제
           </button>
         </div>
-        <div className={styles.commentBox}>
-          <ul>
-            {comments.map((reply, index) => (
-              <li key={reply.replyId}>
-                {reply.content}
-                <ReplyBtn
-                  id={reply.replyId}
-                  onClick={(e) => createChildReply(reply.replyId)}
-                >
-                  +
-                </ReplyBtn>
-                <ReplyBtn onClick={() => deleteChildReply(reply.replyId)}>
-                  삭제
-                </ReplyBtn>
-                <span>
-                  index: {index + 1}
-                  clickChildReplyIndex:{clickChildReplyIndex}
-                </span>
+        <CommentContainer>
+          <CommentBox>
+            <CommentInput
+              ref={textRef}
+              type="text"
+              onKeyPress={(e) => {
+                if (e.key == "Enter") {
+                  textRef.current.value = "";
+                }
+              }}
+            />
+            <CommentBtn onClick={replySubmit}>입력</CommentBtn>
+          </CommentBox>
 
-                <form onSubmit={onSubmit}>
+          <CommentsUl>
+            {comments?.map((reply, index) => (
+              <CommentsLi key={reply.replyId}>
+                <OneComment>
+                  <div>
+                    <span>{reply.content}</span>
+                  </div>
+                  <div>
+                    <ReplyBtn
+                      id={reply.replyId}
+                      onClick={(e) => createChildReply(reply.replyId)}
+                    >
+                      답글
+                    </ReplyBtn>
+                    <ReplyBtn onClick={() => deleteChildReply(reply.replyId)}>
+                      삭제
+                    </ReplyBtn>
+                  </div>
+                </OneComment>
+
+                <form onSubmit={childReplySubmit}>
                   {clickChildReplyIndex === reply.replyId && childReply ? (
                     <>
                       <input
@@ -261,10 +300,10 @@ function PostDetail(props) {
                     </>
                   ) : null}
                 </form>
-              </li>
+              </CommentsLi>
             ))}
-          </ul>
-        </div>
+          </CommentsUl>
+        </CommentContainer>
       </div>
     </div>
   );
