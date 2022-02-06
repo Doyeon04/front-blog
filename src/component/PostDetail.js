@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Content from "./content/Content";
 import { token } from "./Api";
 
+
 function PostDetail(props) {
   const { postId } = useParams();
   const { state } = useLocation();
