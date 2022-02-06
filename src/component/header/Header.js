@@ -15,6 +15,7 @@ const Header = (props) => {
         display: "flex",
         justifyContent: "space-between",
         padding: "0 8%",
+        zIndex: "10",
       }}
       variant="light"
     >

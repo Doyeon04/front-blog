@@ -37,8 +37,6 @@ const CommentBtn = styled.button`
   background-color: #b4d8e7;
   color: white;
   margin: auto 0;
-  z-index: -1;
-  cursor: pointer;
 `;
 
 const CommentsUl = styled.ul`
@@ -70,12 +68,12 @@ const ReplyBtn = styled(CommentBtn)`
   height: 30px;
   margin: auto;
   margin: 0px 10px;
-  z-index: -10;
 `;
 
 const ReplyDeleteBox = styled.div`
   position: relative;
   top: 50px;
+  height: 40px;
 `;
 
 const ChildReplyForm = styled.form`
@@ -135,7 +133,7 @@ function PostDetail(props) {
     event.preventDefault();
 
     //원래 페이지로 돌아가기 */
-
+    console.log("삭제버튼누름");
     var axios = require("axios");
     var data = JSON.stringify("string");
 
@@ -287,6 +285,7 @@ function PostDetail(props) {
           >
             <button className={styles.Btn}>수정</button>
           </Link>
+
           <button className={styles.Btn} onClick={onDelete}>
             삭제
           </button>
