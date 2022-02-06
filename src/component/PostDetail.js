@@ -7,6 +7,11 @@ import styles from "./PostDetail.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import Content from "./content/Content";
 import { token } from "./Api";
+import styled  from "styled-components";
+const SmallButton = styled.button`
+  width:100px;
+  height:30px;
+`;
 
 function PostDetail(props) {
   const { postId } = useParams();
@@ -14,10 +19,12 @@ function PostDetail(props) {
   const navigate = useNavigate();
   const [childReply, setChildReply] = useState(false);
 
+  const [clickChildReplyIndex, setClickChildReply] = useState();
+
   console.log("postId:", postId);
 
   //const token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaXNzIjoiYmxvZyBwcm9qZWN0IiwiaWF0IjoxNjQ0MDQyNDcwLCJleHAiOjE2NTI2ODI0NzB9.NCoq6o8qLnWoBqw6ob3gOhVDR87ZGgruPiGeWEhyfOugC3ZNjCFFcF-Dn7xUInFYfNv8XY-yKznCQWqj8qX1rw";
-  
+
   const onDelete = (event) => {
     event.preventDefault();
 
@@ -48,10 +55,13 @@ function PostDetail(props) {
   const [title, setTitle] = useState();
   const [content, setContent] = useState();
   const [comments, setComments] = useState([]);
-  
+
   const textRef = useRef();
 
   useEffect(() => {
+    getResponse();
+  }, []);
+  const getResponse= () =>{
     var axios = require("axios");
     var data = JSON.stringify({});
 
@@ -77,8 +87,7 @@ function PostDetail(props) {
       .catch(function (error) {
         console.log(error);
       });
-  }, []);
-
+  }
   const setCommentFunc = (array) => {
     setComments(array);
   };
@@ -113,23 +122,72 @@ function PostDetail(props) {
         console.log(error);
       });
   };
-  const createChildReply = (replyId)=>{
-    console.log("value:",replyId);
-    console.log("comments",comments);
-    comments.map((order)=>{
-      console.log("order",order.replyId);
-      if(order.replyId===replyId){ 
-        setChildReply(true);
-        const parent = document.getelementById(replyId);
-        if(parent.childNodes ===null){
-          return <input type="text" />
-        }
-      
+  const createChildReply = (replyId) => {
+    setChildReply((current) => !current);
+    setClickChildReply(replyId);
+    console.log("create",replyId);
+    };
+    const deleteChildReply = (replyId)=>{
+    
+      console.log("삭제 버튼",replyId);
+      var axios = require('axios');
+      var data = JSON.stringify({});
+
+      var config = {
+        method: 'delete',
+        url: `http://localhost:8080/api/reply/${replyId}`,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+        data : data
       };
-    })
-   //  const ex = document.getElementByIdId(data);
-     //setChildReply((current)=>(!current));
-   }
+
+      axios(config)
+      .then(function (response) {
+        console.log("ddd",JSON.stringify(response.data));
+       getResponse();
+     
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+      
+    }
+  const [childReplyTyping, setChildReplyType] = useState();
+
+  /* const postChildReply = (e) => {
+    setChildReplyType(e.target.value);
+  }; */
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    var axios = require("axios");
+    var data = JSON.stringify({
+      content: childReplyTyping,
+      parentReplyId: clickChildReplyIndex,
+      postId: postId,
+    });
+
+    var config = {
+      method: "post",
+      url: "http://localhost:8080/api/reply",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      data: data,
+    };
+
+    axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
   return (
     <div>
       <div>
@@ -149,7 +207,7 @@ function PostDetail(props) {
               }
             }}
           />
-          <button onClick={replySubmit}>submit</button>
+          <SmallButton onClick={replySubmit}>submit</SmallButton>
         </div>
 
         <div className={styles.BtnContainer}>
@@ -169,13 +227,33 @@ function PostDetail(props) {
         </div>
         <div className={styles.commentBox}>
           <ul>
-            {comments.map((reply) => (
-              <li key={reply.replyId}>{reply.content} 
-              <button id={reply.replyId} onClick={(e)=>createChildReply(reply.replyId)}>+</button>
-              {childReply ? <input type="text" /> : null}
+            {comments.map((reply, index) => (
+              <li key={reply.replyId}>
+                {reply.content}
+                <button
+                  id={reply.replyId}
+                  onClick={(e) => createChildReply(reply.replyId)}
+                >
+                  +
+                </button>
+                <button
+                 onClick={(e)=> deleteChildReply(reply.replyId)}>삭제</button>
+                <form onSubmit={onSubmit}>
+                  {(clickChildReplyIndex == reply.replyId) && childReply ? (
+                    <><input
+                      type="text"
+                      onChange={(e) => {
+                        setChildReplyType(e.target.value);
+                      }}
+                    />   <SmallButton>댓글 등록</SmallButton>
+                   </> 
+                   ) : null}
+              
+                </form>
               </li>
             ))}
           </ul>
+          <span>{clickChildReplyIndex}</span>
         </div>
       </div>
     </div>
