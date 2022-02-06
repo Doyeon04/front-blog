@@ -80,9 +80,9 @@ function PostDetail(props) {
 
     axios(config)
       .then(function (response) {
-        console.log(response.data);
-        let result = response.data.replyDtoList;
-        setCommentFunc(result);
+        console.log("getResponse에서 받아옴:", response.data.replyResponseList); // 이게 comments임
+        let result = response.data.replyResponseList;
+        setComments(result);
 
         setTitle(response.data.title);
         setContent(response.data.content);
@@ -129,9 +129,6 @@ function PostDetail(props) {
     getResponse();
   }, []);
 
-  const setCommentFunc = (array) => {
-    setComments(array);
-  };
   const replySubmit = () => {
     let text = textRef.current.value;
     textRef.current.value = "";
@@ -155,9 +152,8 @@ function PostDetail(props) {
 
     axios(config)
       .then(function (response) {
-        console.log(JSON.stringify(response.data));
-
-        setCommentFunc(response.data.replyDtoList);
+        console.log(response.data.replyResponseList);
+        setComments(response.data.replyResponseList);
       })
       .catch(function (error) {
         console.log(error);
@@ -177,7 +173,9 @@ function PostDetail(props) {
   }; */
 
   const childReplySubmit = (e) => {
+    // 자식 댓글 달기
     e.preventDefault();
+    console.log("자식 댓글 담");
     var axios = require("axios");
     var data = JSON.stringify({
       content: childReplyTyping,
@@ -197,7 +195,7 @@ function PostDetail(props) {
 
     axios(config)
       .then(function (response) {
-        console.log(response.data);
+        setComments(response.data.replyResponseList);
         getResponse();
       })
       .catch(function (error) {
@@ -269,26 +267,38 @@ function PostDetail(props) {
 
           <CommentsUl>
             {comments?.map((reply, index) => (
-              <CommentsLi key={reply.replyId}>
+              <CommentsLi key={reply.parentReplyDto.replyId}>
                 <OneComment>
                   <div>
-                    <span>{reply.content}</span>
+                    <span>{reply.parentReplyDto.content}</span>
                   </div>
                   <div>
                     <ReplyBtn
-                      id={reply.replyId}
-                      onClick={(e) => createChildReply(reply.replyId)}
+                      id={reply.parentReplyDto.replyId}
+                      onClick={(e) =>
+                        createChildReply(reply.parentReplyDto.replyId)
+                      }
                     >
                       답글
                     </ReplyBtn>
-                    <ReplyBtn onClick={() => deleteChildReply(reply.replyId)}>
+                    <ReplyBtn
+                      onClick={() =>
+                        deleteChildReply(reply.parentReplyDto.replyId)
+                      }
+                    >
                       삭제
                     </ReplyBtn>
                   </div>
                 </OneComment>
+                <ul>
+                  {reply.childReplyDtoList?.map((child) => (
+                    <li>{child.content}</li>
+                  ))}
+                </ul>
 
                 <form onSubmit={childReplySubmit}>
-                  {clickChildReplyIndex === reply.replyId && childReply ? (
+                  {clickChildReplyIndex === reply.parentReplyDto.replyId &&
+                  childReply ? (
                     <>
                       <input
                         type="text"
