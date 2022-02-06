@@ -109,7 +109,7 @@ function PostDetail(props) {
       },
       data: data,
     };
-
+    
     axios(config)
       .then(function (response) {
         console.log(JSON.stringify(response.data));
