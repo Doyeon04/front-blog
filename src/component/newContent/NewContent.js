@@ -14,7 +14,7 @@ const NewContent = (props) => {
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [file, setFile] = useState('');
+  const [file, setFile] = useState("");
   const [imageFile, setImageFile] = useState("");
 
   const onChangeTitle = (event) => setTitle(event.target.value);
@@ -53,14 +53,21 @@ const NewContent = (props) => {
   const onChange = (e) => {
     const img = e.target.files[0];
     const formData = new FormData();
-    formData.append('multipartFile', img);
+    formData.append("multipartFile", img);
 
-    return axios.post("http://localhost:8080/api/img/s3/posts/upload", formData).then(res => {
-      alert('성공')
-    }).catch(err => {
-      alert('실패')
-    })
-}
+    return axios
+      .post("http://localhost:8080/api/img/s3/posts/upload", formData, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        alert("성공");
+      })
+      .catch((err) => {
+        alert("실패");
+      });
+  };
 
   return (
     <div className={styles.container}>
@@ -88,22 +95,19 @@ const NewContent = (props) => {
               border: "0",
             }}
           />
-         
         </Form.Group>
-      
       </Form>
 
-    <div>
-       <input type='file' 
-      accept='image/jpg,impge/png,image/jpeg,image/gif' 
-      name='profile_img' 
-      onChange={onChange}>
-  </input>
-
+      <div>
+        <input
+          type="file"
+          accept="image/jpg,image/png,image/jpeg,image/gif"
+          name="profile_img"
+          onChange={onChange}
+        ></input>
       </div>
 
       <Button onClick={submit}>등록</Button>
-
     </div>
   );
 };
