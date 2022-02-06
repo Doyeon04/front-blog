@@ -55,7 +55,8 @@ const NewContent = (props) => {
     const formData = new FormData();
     formData.append('multipartFile', img);
 
-    return axios.post("http://localhost:8080/api/img/s3/posts/upload", formData).then(res => {
+    return axios.post("http://localhost:8080/api/img/s3/posts/upload", formData)
+    .then(res => {
       alert('성공')
     }).catch(err => {
       alert('실패')
@@ -65,33 +66,17 @@ const NewContent = (props) => {
   return (
     <div className={styles.container}>
       <Header />
-      <Form className={styles.Form}>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-          <Form.Label>제목</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="name@example.com"
-            onChange={onChangeTitle}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-          <Form.Label>내용</Form.Label>
-          <Form.Control
-            onChange={onChangeContent}
-            className="form-control"
-            as="textarea"
-            placeholder="example"
-            rows={15}
-            style={{
-              outLine: "none",
-              color: "red",
-              border: "0",
-            }}
-          />
-         
-        </Form.Group>
-      
-      </Form>
+      <div>
+        <form>
+          <span>제목</span>
+          <input type="text" placeholder="제목을 입력하세요"  onChange={onChangeTitle}/>
+       
+          <span>내용</span>
+          <input type="textarea" placeholder="내용을 입력하세요" onChange={onChangeContent}/>
+       
+          <Button onClick={submit}>등록</Button>
+        </form>
+      </div>
 
     <div>
        <input type='file' 
@@ -99,11 +84,10 @@ const NewContent = (props) => {
       name='profile_img' 
       onChange={onChange}>
   </input>
-
+  <Button onClick={submit}>등록</Button>
       </div>
 
-      <Button onClick={submit}>등록</Button>
-
+     
     </div>
   );
 };
