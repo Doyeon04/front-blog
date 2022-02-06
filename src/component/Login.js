@@ -3,9 +3,37 @@ import TitleBox from "./titleBox/TitleBox.js";
 import styled from "styled-components";
 import React, { useEffect, useState } from "react";
 
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 120px 0px;
+`;
+
 const LoginForm = styled.form`
-  postion: absolute;
-  top: 100px;
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+`;
+
+const Input = styled.input`
+  width: 100%;
+  margin: 5px 0px 14px 0px;
+  height: 35px;
+  border: none;
+  border-bottom: 1px solid gray;
+  padding: 7px;
+  &:focus {
+    outline: none;
+  }
+`;
+
+const Button = styled.button`
+  width: 100%;
+  border: none;
+  padding: 5px;
+  height: 35px;
 `;
 function Login() {
   const [id, setId] = useState();
@@ -51,15 +79,36 @@ function Login() {
     setPs(event.currentTarget.value);
   };
   return (
-    <div>
+    <Container>
+      <Header />
       <LoginForm>
-        ID:
-        <input value={id || ""} onChange={handleSubmitId} type="text" />
-        PS:
-        <input value={ps || ""} onChange={handleSubmitPs} type="text" />
-        <button onClick={replySubmit}>submit</button>
+        <h2
+          style={{
+            marginBottom: "30px",
+            fontWeight: "bold",
+            textAlign: "center",
+          }}
+        >
+          LOGIN
+        </h2>
+
+        <Input
+          value={id || ""}
+          onChange={handleSubmitId}
+          type="text"
+          placeholder="Email ID"
+        />
+
+        <Input
+          value={ps || ""}
+          onChange={handleSubmitPs}
+          type="password"
+          placeholder="Password"
+        />
+
+        <Button onClick={replySubmit}>LOGIN</Button>
       </LoginForm>
-    </div>
+    </Container>
   );
 }
 export default Login;

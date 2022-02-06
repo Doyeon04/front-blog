@@ -1,9 +1,30 @@
 import React, { useState, useRef } from "react";
 import Header from "../component/header/Header";
 import styled from "styled-components";
-const Exform=styled.form`
-  margin-top:200px;
+
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 120px 0px;
 `;
+
+const Button = styled.button`
+  width: 100%;
+  border: none;
+  padding: 5px;
+  height: 35px;
+`;
+
+const Input = styled.input`
+  width: 100%;
+  margin: 5px 0px 14px 0px;
+  height: 35px;
+  border: 1px solid gray;
+  padding: 7px;
+`;
+
 function SignUp() {
   let nameInputRef = useRef();
   let PWInputRef = useRef();
@@ -58,13 +79,22 @@ function SignUp() {
       });
   }
   return (
-    <div>
-      <form type="submit" onSubmit={enroll}>
-        <h2>회원가입</h2>
+    <Container>
+      <Header />
+      <form type="submit" onSubmit={enroll} style={{ width: 300 }}>
+        <h2
+          style={{
+            marginBottom: "30px",
+            fontWeight: "bold",
+            textAlign: "center",
+          }}
+        >
+          회원가입
+        </h2>
         <div>
           <label>사용자 이름</label>
         </div>
-        <input
+        <Input
           onChange={handleNameValue}
           type="text"
           maxLength="20"
@@ -74,16 +104,16 @@ function SignUp() {
         <div>
           <label>이메일</label>
         </div>
-        <input onChange={handleEmailValue} type="text" ref={emailInputRef} />
+        <Input onChange={handleEmailValue} type="text" ref={emailInputRef} />
         <div>
           <label>비밀번호</label>
         </div>
-        <input onChange={handlePWValue} type="password" ref={PWInputRef} />
+        <Input onChange={handlePWValue} type="password" ref={PWInputRef} />
         <div>
-          <button>입력</button>
+          <Button>입력</Button>
         </div>
       </form>
-    </div>
+    </Container>
   );
 }
 

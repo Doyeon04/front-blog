@@ -7,11 +7,7 @@ import styles from "./PostDetail.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import Content from "./content/Content";
 import { token } from "./Api";
-import styled  from "styled-components";
-const SmallButton = styled.button`
-  width:100px;
-  height:30px;
-`;
+import styled from "styled-components";
 
 function PostDetail(props) {
   const { postId } = useParams();
@@ -24,6 +20,41 @@ function PostDetail(props) {
   console.log("postId:", postId);
 
   //const token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaXNzIjoiYmxvZyBwcm9qZWN0IiwiaWF0IjoxNjQ0MDQyNDcwLCJleHAiOjE2NTI2ODI0NzB9.NCoq6o8qLnWoBqw6ob3gOhVDR87ZGgruPiGeWEhyfOugC3ZNjCFFcF-Dn7xUInFYfNv8XY-yKznCQWqj8qX1rw";
+
+  const ReplyBtn = styled.button`
+    width: 70px;
+    height: 50px;
+  `;
+
+  const getResponse = () => {
+    var axios = require("axios");
+    var data = JSON.stringify({});
+
+    var config = {
+      method: "get",
+      url: `http://localhost:8080/api/posts/${postId}`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      data: data,
+    };
+
+    axios(config)
+      .then(function (response) {
+        console.log("???????? ",response.data.replyResponseList);
+      
+        let result = JSON.stringify(response.data.replyResponseList);
+       
+        setCommentFunc(result);
+
+        setTitle(response.data.title);
+        setContent(response.data.content);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
 
   const onDelete = (event) => {
     event.preventDefault();
@@ -61,35 +92,10 @@ function PostDetail(props) {
   useEffect(() => {
     getResponse();
   }, []);
-  const getResponse= () =>{
-    var axios = require("axios");
-    var data = JSON.stringify({});
 
-    var config = {
-      method: "get",
-      url: `http://localhost:8080/api/posts/${postId}`,
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-      data: data,
-    };
-
-    axios(config)
-      .then(function (response) {
-        console.log(JSON.stringify(response.data));
-        let result = response.data.replyDtoList;
-        setCommentFunc(result);
-
-        setTitle(response.data.title);
-        setContent(response.data.content);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  }
   const setCommentFunc = (array) => {
     setComments(array);
+    
   };
   const replySubmit = () => {
     let text = textRef.current.value;
@@ -114,9 +120,9 @@ function PostDetail(props) {
 
     axios(config)
       .then(function (response) {
-        console.log(JSON.stringify(response.data));
-
-        setCommentFunc(response.data.replyDtoList);
+        console.log(JSON.stringify(response.data.replyResponseList));
+        
+        setCommentFunc(JSON.stringify(response.data.replyResponseList));
       })
       .catch(function (error) {
         console.log(error);
@@ -125,35 +131,10 @@ function PostDetail(props) {
   const createChildReply = (replyId) => {
     setChildReply((current) => !current);
     setClickChildReply(replyId);
-    console.log("create",replyId);
-    };
-    const deleteChildReply = (replyId)=>{
-    
-      console.log("삭제 버튼",replyId);
-      var axios = require('axios');
-      var data = JSON.stringify({});
+    //getResponse();
+    console.log("클릭한 +버튼", replyId);
+  };
 
-      var config = {
-        method: 'delete',
-        url: `http://localhost:8080/api/reply/${replyId}`,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-        data : data
-      };
-
-      axios(config)
-      .then(function (response) {
-        console.log("ddd",JSON.stringify(response.data));
-       getResponse();
-     
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-      
-    }
   const [childReplyTyping, setChildReplyType] = useState();
 
   /* const postChildReply = (e) => {
@@ -182,6 +163,32 @@ function PostDetail(props) {
     axios(config)
       .then(function (response) {
         console.log(JSON.stringify(response.data));
+        getResponse();
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
+  const deleteChildReply = (replyId) => {
+    console.log("삭제 버튼", replyId);
+    var axios = require("axios");
+    var data = JSON.stringify({});
+
+    var config = {
+      method: "delete",
+      url: `http://localhost:8080/api/reply/${replyId}`,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+      data: data,
+    };
+
+    axios(config)
+      .then(function (response) {
+        console.log("ddd", JSON.stringify(response.data));
+        getResponse();
       })
       .catch(function (error) {
         console.log(error);
@@ -207,7 +214,7 @@ function PostDetail(props) {
               }
             }}
           />
-          <SmallButton onClick={replySubmit}>submit</SmallButton>
+          <button onClick={replySubmit}>submit</button>
         </div>
 
         <div className={styles.BtnContainer}>
@@ -226,34 +233,45 @@ function PostDetail(props) {
           </button>
         </div>
         <div className={styles.commentBox}>
+          
           <ul>
-            {comments.map((reply, index) => (
-              <li key={reply.replyId}>
-                {reply.content}
-                <button
-                  id={reply.replyId}
-                  onClick={(e) => createChildReply(reply.replyId)}
+            {comments?.map((reply,index) => {
+
+                 const parentReplys= reply.parentReplyDto;
+                console.log("댓글 내용 ",parentReplys);
+              <li key={parentReplys.replyId}>
+                {parentReplys.content}
+                <ReplyBtn
+                  id={parentReplys.replyId}
+                  onClick={(e) => createChildReply(parentReplys.replyId)}
                 >
                   +
-                </button>
-                <button
-                 onClick={(e)=> deleteChildReply(reply.replyId)}>삭제</button>
+                </ReplyBtn>
+                <ReplyBtn onClick={() => deleteChildReply(parentReplys.replyId)}>
+                  삭제
+                </ReplyBtn>
+                <span>
+                  index: {index + 1}
+                  clickChildReplyIndex:{clickChildReplyIndex}
+                </span>
+
                 <form onSubmit={onSubmit}>
-                  {(clickChildReplyIndex == reply.replyId) && childReply ? (
-                    <><input
-                      type="text"
-                      onChange={(e) => {
-                        setChildReplyType(e.target.value);
-                      }}
-                    />   <SmallButton>댓글 등록</SmallButton>
-                   </> 
-                   ) : null}
-              
+                  {clickChildReplyIndex === parentReplys.replyId && childReply ? (
+                    <>
+                      <input
+                        type="text"
+                        onChange={(e) => {
+                          setChildReplyType(e.target.value);
+                        }}
+                      />
+                      <ReplyBtn> 등록</ReplyBtn>
+                    </>
+                  ) : null}
                 </form>
               </li>
-            ))}
+            }
+            )}
           </ul>
-          <span>{clickChildReplyIndex}</span>
         </div>
       </div>
     </div>
