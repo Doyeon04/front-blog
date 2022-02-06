@@ -14,7 +14,7 @@ const NewContent = (props) => {
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [file, setFile] = useState('');
+  const [file, setFile] = useState("");
   const [imageFile, setImageFile] = useState("");
 
   const onChangeTitle = (event) => setTitle(event.target.value);
@@ -53,38 +53,41 @@ const NewContent = (props) => {
   const onChange = (e) => {
     const img = e.target.files[0];
     const formData = new FormData();
-    formData.append('multipartFile', img);
+    formData.append("multipartFile", img);
 
-    return axios.post("http://localhost:8080/api/img/s3/posts/upload", formData)
-    .then(res => {
-      alert('성공')
-    }).catch(err => {
-      alert('실패')
-    })
-}
+    return axios
+      .post("http://localhost:8080/api/img/s3/posts/upload", formData, {
+        headers: {
+          
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        alert("성공");
+      })
+      .catch((err) => {
+        alert("실패");
+      });
+  };
 
   return (
     <div className={styles.container}>
       <Header />
-      <div>
+      <div className={styles.inputContainer}>
         <form>
-          <span>제목</span>
-          <input type="text" placeholder="제목을 입력하세요"  onChange={onChangeTitle}/>
-       
-          <span>내용</span>
-          <input type="textarea" placeholder="내용을 입력하세요" onChange={onChangeContent}/>
-       
-          <Button onClick={submit}>등록</Button>
+          <input className={styles.inputTitle} type="text" placeholder="제목을 입력하세요"  onChange={onChangeTitle}/>     
+          <textarea className={styles.inputContent} placeholder="내용을 입력하세요" onChange={onChangeContent}/>
+          <button className={styles.contentButton} onClick={submit}>등록</button>
         </form>
       </div>
 
-    <div>
+    <div className={styles.imageInputContainer}>
        <input type='file' 
       accept='image/jpg,impge/png,image/jpeg,image/gif' 
       name='profile_img' 
       onChange={onChange}>
   </input>
-  <Button onClick={submit}>등록</Button>
+  <button className={styles.imageButton} onClick={submit}>이미지 등록</button>
       </div>
 
      
