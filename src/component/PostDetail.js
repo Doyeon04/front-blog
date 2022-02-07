@@ -298,7 +298,7 @@ function PostDetail(props) {
           </button>
         </div>
         <div className={styles.postContent}>{content}</div>
-        <div>
+        <div className = {styles.img_container}>
           <img src = {imgUrl}/>
         </div>
 

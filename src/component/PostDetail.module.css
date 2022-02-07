@@ -21,7 +21,14 @@
   font-weight: bold;
   padding: 10px;
 }
-
+.img_container{
+  width: 200px;
+  height: auto;
+}
+.img_container img{
+  width: 100%;
+  height: auto;
+}
 .postContent {
   height: 500px;
 
