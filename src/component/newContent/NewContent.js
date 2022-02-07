@@ -51,6 +51,9 @@ const NewContent = (props) => {
   };
 
   const onChange = (e) => {
+    e.preventDefault();
+    setFile(URL.createObjectURL(e.target.files[0]));
+
     const img = e.target.files[0];
     const formData = new FormData();
     formData.append("multipartFile", img);
@@ -68,6 +71,8 @@ const NewContent = (props) => {
         alert("실패");
       });
   };
+
+  
 
   return (
     <div className={styles.container}>
@@ -106,7 +111,13 @@ const NewContent = (props) => {
           onChange={onChange}
         ></input>
       </div>
-
+      {
+        file&&(
+      <div>
+        <img src = {file}  alt = "image"/>
+      </div>
+        )
+      }
       <Button onClick={submit}>등록</Button>
     </div>
   );
