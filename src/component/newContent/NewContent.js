@@ -61,6 +61,7 @@ const NewContent = (props) => {
     return axios
       .post("http://localhost:8080/api/img/s3/posts/upload", formData, {
         headers: {
+          
           Authorization: "Bearer " + token,
         },
       })
@@ -78,33 +79,17 @@ const NewContent = (props) => {
   return (
     <div className={styles.container}>
       <Header />
-      <Form className={styles.Form}>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-          <Form.Label>제목</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="name@example.com"
-            onChange={onChangeTitle}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-          <Form.Label>내용</Form.Label>
-          <Form.Control
-            onChange={onChangeContent}
-            className="form-control"
-            as="textarea"
-            placeholder="example"
-            rows={15}
-            style={{
-              outLine: "none",
-              color: "red",
-              border: "0",
-            }}
-          />
-        </Form.Group>
-      </Form>
+      <div className={styles.inputContainer}>
+        <form>
+          <input className={styles.inputTitle} type="text" placeholder="제목을 입력하세요"  onChange={onChangeTitle}/>     
+          <textarea className={styles.inputContent} placeholder="내용을 입력하세요" onChange={onChangeContent}/>
+          <button className={styles.contentButton} onClick={submit}>등록</button>
+        </form>
+      </div>
 
-      <div>
+
+     
+      <div className={styles.imageInputContainer}>
         <img src = {imgUrl}/>
       </div>
 
@@ -123,7 +108,7 @@ const NewContent = (props) => {
       </div>
         )
       }
-      <Button onClick={submit}>등록</Button>
+      <button className={styles.imageButton} onClick={submit}>등록</button>
     </div>
   );
 };
