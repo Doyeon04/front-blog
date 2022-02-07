@@ -34,22 +34,6 @@ const Modify = (props) => {
   };
 
   const Submit = () => {
-    /*  axios
-      .put(`http://localhost:8080/api/posts/${postId}`, {
-        content: editedContent,
-        postsId: postId,
-        title: editedTitle,
-      })
-      .then((response) => {
-        // response
-      })
-      .catch((error) => {
-        // 오류발생시 실행
-      })
-      .then(() => {
-        // 항상 실행
-        navigate("/");
-      }); */
     var axios = require("axios");
     var data = JSON.stringify({
       content: editedContent,
@@ -68,7 +52,7 @@ const Modify = (props) => {
 
     axios(config)
       .then(function (response) {
-        console.log(JSON.stringify(response.data));
+        console.log(response.data);
         navigate("/");
       })
       .catch(function (error) {

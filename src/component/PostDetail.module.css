@@ -1,13 +1,25 @@
+:root {
+  --gray-color: #d3d3d3;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+}
+
 .BtnContainer {
   margin: 20px;
 }
 
 .postContainer {
   margin-top: 100px;
-  width: 100%;
+  min-width: 1000px;
   height: 800px;
 
-  padding: 80px 200px;
+  padding: 80px 100px;
+  margin: auto 0;
 }
 
 .postTitle {
@@ -21,21 +33,26 @@
   font-weight: bold;
   padding: 10px;
 }
-.img_container{
-  width: 200px;
-  height: auto;
-}
-.img_container img{
+.img_container {
   width: 100%;
   height: auto;
+  display: flex;
+  justify-content: center;
+}
+.img_container img {
+  width: 80%;
+  height: auto;
+  margin-bottom: 40px;
 }
 .postContent {
   height: 500px;
 
   font-size: 18px;
-  padding: 60px 45px;
-  border-top: 1px solid gray;
-  border-bottom: 1px solid gray;
+  padding: 60px 45px 100px 45px;
+  border-top: 1px solid var(--gray-color);
+  border-bottom: 1px solid var(--gray-color);
+  overflow: hidden;
+  height: auto;
 }
 
 .BtnContainer {
@@ -43,26 +60,34 @@
   justify-content: center;
 }
 
+.BtnContainer span {
+  padding: 0px 10px;
+  margin: auto 0;
+  color: #1e6b7b;
+  font-family: "paybooc-Light", sans-serif;
+  font-weight: 600;
+}
+
 .Btn {
   position: relative;
   border: none;
   display: inline-block;
-  padding: 15px;
+  padding: 10px;
   border-radius: 15px;
   font-family: "paybooc-Light", sans-serif;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
   text-decoration: none;
   font-weight: 600;
   transition: 0.25s;
   background-color: aliceblue;
   color: #1e6b7b;
-  width: 100px;
-  margin: 0px 20px;
+  width: 80px;
+  margin: 0px 5px;
+  font-size: 12px;
 }
 
 .Btn:hover {
   letter-spacing: 2px;
-  transform: scale(1.1);
+  transform: scale(1.05);
   cursor: pointer;
 }
 
