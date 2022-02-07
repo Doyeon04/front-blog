@@ -112,6 +112,7 @@ function PostDetail(props) {
   const [comments, setComments] = useState([]);
   const [parentContent, setParentContent] = useState([]);
   const textRef = useRef();
+  const [replyNum, setReplyNum] = useState();
 
   console.log("postId:", postId);
 
@@ -138,6 +139,7 @@ function PostDetail(props) {
       .then(function (response) {
         console.log(response.data);
         console.log("getResponse에서 받아옴:", response.data.replyResponseList); // 이게 comments임
+
         let result = response.data.replyResponseList;
 
         const str = response.data.content.split(" ");
@@ -153,6 +155,7 @@ function PostDetail(props) {
           setContent(response.data.content);
         }
 
+        countReply(response.data.replyResponseList);
         setWriter(response.data.userInfo.username);
         setPostTime(response.data.chgDt);
         setComments(result);
@@ -195,6 +198,21 @@ function PostDetail(props) {
     getResponse();
   }, []);
 
+  const countReply = (replyList) => {
+    const eachChildReply = replyList.map(
+      (reply) => reply.childReplyDtoList.length
+    );
+
+    const childReplySum = eachChildReply.reduce(function (
+      accumulator,
+      currentValue
+    ) {
+      return accumulator + currentValue;
+    },
+    0);
+
+    setReplyNum(replyList.length + childReplySum);
+  };
   const replySubmit = () => {
     let text = textRef.current.value;
     textRef.current.value = "";
@@ -218,8 +236,11 @@ function PostDetail(props) {
 
     axios(config)
       .then(function (response) {
-        console.log(response.data.replyResponseList);
         setComments(response.data.replyResponseList);
+
+        const replyList = response.data.replyResponseList;
+
+        countReply(replyList);
       })
       .catch(function (error) {
         console.log(error);
@@ -332,6 +353,7 @@ function PostDetail(props) {
           </div>
 
           <CommentContainer>
+            <span>댓글 {replyNum}</span>
             <CommentBox>
               <CommentInput
                 ref={textRef}
@@ -397,7 +419,7 @@ function PostDetail(props) {
                           }}
                         />
                         <div>
-                          <ReplyBtn style={{ float: "right", marginRight: 0 }}>
+                          <ReplyBtn style={{ float: "left", marginLeft: 0 }}>
                             {" "}
                             등록
                           </ReplyBtn>
