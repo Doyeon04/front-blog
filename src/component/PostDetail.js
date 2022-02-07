@@ -93,7 +93,7 @@ function PostDetail(props) {
   const { state } = useLocation();
   const navigate = useNavigate();
   const [childReply, setChildReply] = useState(false);
-
+  const [imgUrl, setImgUrl] = useState('');
   const [clickChildReplyIndex, setClickChildReply] = useState();
 
   console.log("postId:", postId);
@@ -119,10 +119,17 @@ function PostDetail(props) {
         console.log(response.data);
         console.log("getResponse에서 받아옴:", response.data.replyResponseList); // 이게 comments임
         let result = response.data.replyResponseList;
+       
+        const str = response.data.content.split(' ')
+         const urlImage = str[0];
+         const content = str.slice(1).toString();
+         console.log(content);
+
+        setImgUrl(urlImage)
         setComments(result);
 
         setTitle(response.data.title);
-        setContent(response.data.content);
+        setContent(content);
       })
       .catch(function (error) {
         console.log(error);
@@ -291,6 +298,9 @@ function PostDetail(props) {
           </button>
         </div>
         <div className={styles.postContent}>{content}</div>
+        <div>
+          <img src = {imgUrl}/>
+        </div>
 
         <CommentContainer>
           <CommentBox>

@@ -16,7 +16,7 @@ const NewContent = (props) => {
   const [content, setContent] = useState("");
   const [file, setFile] = useState("");
   const [imageFile, setImageFile] = useState("");
-
+  const [imgUrl, setUrlImg] =useState('')
   const onChangeTitle = (event) => setTitle(event.target.value);
   const onChangeContent = (event) => setContent(event.target.value);
 
@@ -26,7 +26,7 @@ const NewContent = (props) => {
   const submit = () => {
     var axios = require("axios");
     var data = JSON.stringify({
-      content: content,
+      content: imgUrl +' '+ content,
       title: title,
     });
 
@@ -53,7 +53,7 @@ const NewContent = (props) => {
   const onChange = (e) => {
     e.preventDefault();
     setFile(URL.createObjectURL(e.target.files[0]));
-
+    
     const img = e.target.files[0];
     const formData = new FormData();
     formData.append("multipartFile", img);
@@ -65,7 +65,8 @@ const NewContent = (props) => {
         },
       })
       .then((res) => {
-        alert("성공");
+       console.log(res.data);
+       setUrlImg(res.data)
       })
       .catch((err) => {
         alert("실패");
@@ -102,6 +103,10 @@ const NewContent = (props) => {
           />
         </Form.Group>
       </Form>
+
+      <div>
+        <img src = {imgUrl}/>
+      </div>
 
       <div>
         <input
