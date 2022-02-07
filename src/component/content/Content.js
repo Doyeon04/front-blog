@@ -7,6 +7,7 @@ import Masonry from "react-masonry-css";
 import { Link } from "react-router-dom";
 import PostDetail from "../PostDetail";
 import { token } from "../Api";
+import ItemDetail from '../itemDetail/itemDetail'
 
 const Content = (props) => {
   const [items, setItems] = useState([]);
@@ -33,13 +34,6 @@ const Content = (props) => {
       });
   }
   */
-
-  const breakpointColumnsObj = {
-    default: 4,
-    1100: 3,
-    700: 2,
-    500: 1,
-  };
 
   useEffect(() => {
     /* axios
@@ -96,14 +90,14 @@ const Content = (props) => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.contentBox}>
+     
         <div className={styles.masonry_container}>
           {items.map((item) => (
-            <Link to={`/${item.postsId}`} state={{ title: item.title }}>
-              <div key={item.postsId}>{item.title}</div>
+            <Link style = { {textDecoration: 'none'}}to={`/${item.postsId}`} state={{ title: item.title }}>
+                <ItemDetail item = {item}/>  
             </Link>
           ))}
-        </div>
+       
       </div>
     </div>
   );

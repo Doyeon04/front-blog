@@ -1,21 +1,19 @@
 .container {
-  background-color: rgb(99, 163, 219);
+  background-color: #ecf0f1;
   height: 800px;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.contentBox {
-  background-color: white;
-  width: 80%;
-  height: 80%;
-}
 
 .masonry_container{
+  width: 80%;
+  height: auto;
+  max-width: 700px;
   display: grid;
   gap: 10px;
   grid-template-columns: repeat(2, minmax(120px, 1fr));
   grid-template-rows: masonry;
-  text-align: center;
+  
 }

@@ -4,7 +4,8 @@ const TitleBox = (props) => {
   return (
     <div className={styles.container}>
       <div className={styles.whiteBox}>
-        <span>Blog Title</span>
+        <span>Blog Story</span>
+       
       </div>
     </div>
   );
