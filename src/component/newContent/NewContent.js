@@ -16,7 +16,7 @@ const NewContent = (props) => {
   const [content, setContent] = useState("");
   const [file, setFile] = useState("");
   const [imageFile, setImageFile] = useState("");
-
+  const [imgUrl, setUrlImg] =useState('')
   const onChangeTitle = (event) => setTitle(event.target.value);
   const onChangeContent = (event) => setContent(event.target.value);
 
@@ -26,7 +26,7 @@ const NewContent = (props) => {
   const submit = () => {
     var axios = require("axios");
     var data = JSON.stringify({
-      content: content,
+      content: imgUrl +' '+ content,
       title: title,
     });
 
@@ -51,6 +51,9 @@ const NewContent = (props) => {
   };
 
   const onChange = (e) => {
+    e.preventDefault();
+    setFile(URL.createObjectURL(e.target.files[0]));
+    
     const img = e.target.files[0];
     const formData = new FormData();
     formData.append("multipartFile", img);
@@ -63,12 +66,15 @@ const NewContent = (props) => {
         },
       })
       .then((res) => {
-        alert("성공");
+       console.log(res.data);
+       setUrlImg(res.data)
       })
       .catch((err) => {
         alert("실패");
       });
   };
+
+  
 
   return (
     <div className={styles.container}>
@@ -81,16 +87,28 @@ const NewContent = (props) => {
         </form>
       </div>
 
-    <div className={styles.imageInputContainer}>
-       <input type='file' 
-      accept='image/jpg,impge/png,image/jpeg,image/gif' 
-      name='profile_img' 
-      onChange={onChange}>
-  </input>
-  <button className={styles.imageButton} onClick={submit}>이미지 등록</button>
-      </div>
 
      
+      <div className={styles.imageInputContainer}>
+        <img src = {imgUrl}/>
+      </div>
+
+      <div>
+        <input
+          type="file"
+          accept="image/jpg,image/png,image/jpeg,image/gif"
+          name="profile_img"
+          onChange={onChange}
+        ></input>
+      </div>
+      {
+        file&&(
+      <div>
+        <img src = {file}  alt = "image"/>
+      </div>
+        )
+      }
+      <button className={styles.imageButton} onClick={submit}>등록</button>
     </div>
   );
 };

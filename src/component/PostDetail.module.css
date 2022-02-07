@@ -21,7 +21,14 @@
   font-weight: bold;
   padding: 10px;
 }
-
+.img_container{
+  width: 200px;
+  height: auto;
+}
+.img_container img{
+  width: 100%;
+  height: auto;
+}
 .postContent {
   height: 500px;
 
@@ -51,7 +58,6 @@
   color: #1e6b7b;
   width: 100px;
   margin: 0px 20px;
-  z-index: -1;
 }
 
 .Btn:hover {
