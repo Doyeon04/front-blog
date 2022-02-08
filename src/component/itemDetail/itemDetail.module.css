@@ -5,6 +5,10 @@
     border: 1px solid #bdc3c7;
     margin-top: 20px;
     background-color: white;
+    transition: all .2s ease-in-out;
+}
+.itemDetail_container:hover{
+  transform: scale(1.05);
 }
 .item_container{
   margin-bottom: 70px;
