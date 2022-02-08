@@ -9,7 +9,7 @@ import { useState, useEffect } from "react";
 import { token } from "../Api";
 
 const NewContent = (props) => {
-  //const token = localStorage.getItem("token");
+  
   let navigate = useNavigate();
 
   const [title, setTitle] = useState("");
@@ -22,6 +22,8 @@ const NewContent = (props) => {
 
   console.log("title:", title);
   console.log("content:", content);
+  
+  const str = 'https://blog-img-store2.s3.ap-northeast-2.amazonaws.com/';
 
   const submit = () => {
     var axios = require("axios");
@@ -66,6 +68,7 @@ const NewContent = (props) => {
         },
       })
       .then((res) => {
+
        console.log(res.data);
        setUrlImg(res.data)
       })
