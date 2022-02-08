@@ -19,11 +19,16 @@ const Modify = (props) => {
   const [editedTitle, setEditedTitle] = useState(baseTitle);
   const [editedContent, setEditedContent] = useState(baseContent);
 
+  const [file, setFile] = useState("");
+  const [urlImg, setUrlImg] = useState(""); //img url
+
   //const [id, setId] = useState(postId);
   //setId(useLocation().state.content.postId);
 
-  console.log("postId:", useLocation().state.postId);
-  console.log(postId);
+  //console.log("postId:", useLocation().state.postId);
+  //console.log(postId);
+
+  console.log(urlImg.toString() + " " + editedContent);
 
   const onEditChangeTitle = (e) => {
     setEditedTitle(e.target.value);
@@ -36,7 +41,7 @@ const Modify = (props) => {
   const Submit = () => {
     var axios = require("axios");
     var data = JSON.stringify({
-      content: editedContent,
+      content: urlImg + " " + editedContent,
       title: editedTitle,
     });
 
@@ -57,6 +62,28 @@ const Modify = (props) => {
       })
       .catch(function (error) {
         console.log(error);
+      });
+  };
+
+  const onChange = (e) => {
+    e.preventDefault();
+    setFile(URL.createObjectURL(e.target.files[0]));
+
+    const img = e.target.files[0];
+    const formData = new FormData();
+    formData.append("multipartFile", img);
+    return axios
+      .post("http://localhost:8080/api/img/s3/posts/upload", formData, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+      .then((res) => {
+        console.log(res.data);
+        setUrlImg(res.data);
+      })
+      .catch((err) => {
+        alert("실패");
       });
   };
 
@@ -91,6 +118,23 @@ const Modify = (props) => {
         </Form.Group>
       </Form>
       <Button onClick={Submit}>등록</Button>
+      <div>
+        <input
+          type="file"
+          accept="image/jpg,image/png,image/jpeg,image/gif"
+          name="profile_img"
+          onChange={onChange}
+        ></input>
+      </div>
+      {file && (
+        <div>
+          <img src={file} alt="image" />
+        </div>
+      )}
+      <button className={styles.imageButton}>등록</button>
+      <span>
+        {editedContent} {editedTitle}
+      </span>
     </div>
   );
 };
