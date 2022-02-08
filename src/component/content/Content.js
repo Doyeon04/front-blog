@@ -7,7 +7,7 @@ import Masonry from "react-masonry-css";
 import { Link } from "react-router-dom";
 import PostDetail from "../PostDetail";
 import { token } from "../Api";
-import ItemDetail from '../itemDetail/ItemDetail'
+import ItemDetail from '../itemDetail/itemDetail.jsx'
 
 const Content = (props) => {
   const [items, setItems] = useState([]);
