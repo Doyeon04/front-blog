@@ -114,9 +114,7 @@ function PostDetail(props) {
   const textRef = useRef();
   const [replyNum, setReplyNum] = useState();
 
-  console.log("postId:", postId);
-
-  window.scrollTo(0, 0);
+  //window.scrollTo(0, 0);
 
   //const token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaXNzIjoiYmxvZyBwcm9qZWN0IiwiaWF0IjoxNjQ0MDQyNDcwLCJleHAiOjE2NTI2ODI0NzB9.NCoq6o8qLnWoBqw6ob3gOhVDR87ZGgruPiGeWEhyfOugC3ZNjCFFcF-Dn7xUInFYfNv8XY-yKznCQWqj8qX1rw";
 
@@ -143,15 +141,16 @@ function PostDetail(props) {
         console.log("getResponse에서 받아옴:", response.data.replyResponseList); // 이게 comments임
 
         let result = response.data.replyResponseList;
-
         const str = response.data.content.split(" ");
+
         if (
           str[0].includes(
             "https://blog-img-store2.s3.ap-northeast-2.amazonaws.com"
           )
         ) {
           const urlImage = str[0];
-          setContent(str.slice(1).toString());
+          setContent(str.slice(1).join(" ").toString());
+
           setImgUrl(urlImage);
         } else {
           setContent(response.data.content);
@@ -337,6 +336,7 @@ function PostDetail(props) {
                 title: title,
                 content: content,
                 postId: postId,
+                imgUrl: imgUrl,
               }}
             >
               <button className={styles.Btn}>수정</button>

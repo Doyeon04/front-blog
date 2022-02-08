@@ -14,21 +14,17 @@ const Modify = (props) => {
   const baseTitle = useLocation().state.title;
   const baseContent = useLocation().state.content;
   const postId = useLocation().state.postId;
+  const imgUrl = useLocation().state.imgUrl;
   const navigate = useNavigate();
 
   const [editedTitle, setEditedTitle] = useState(baseTitle);
   const [editedContent, setEditedContent] = useState(baseContent);
 
   const [file, setFile] = useState("");
-  const [urlImg, setUrlImg] = useState(""); //img url
+  const [urlImg, setUrlImg] = useState(imgUrl); //img url
+  const [postContent, setPostContent] = useState();
 
-  //const [id, setId] = useState(postId);
-  //setId(useLocation().state.content.postId);
-
-  //console.log("postId:", useLocation().state.postId);
-  //console.log(postId);
-
-  console.log(urlImg.toString() + " " + editedContent);
+  console.log(imgUrl);
 
   const onEditChangeTitle = (e) => {
     setEditedTitle(e.target.value);
@@ -39,9 +35,18 @@ const Modify = (props) => {
   };
 
   const Submit = () => {
+    console.log(urlImg);
+    console.log("editedContet:", editedContent);
+
     var axios = require("axios");
+
     var data = JSON.stringify({
-      content: urlImg + " " + editedContent,
+      content: urlImg.includes(
+        "https://blog-img-store2.s3.ap-northeast-2.amazonaws.com"
+      )
+        ? urlImg + " " + editedContent
+        : editedContent,
+
       title: editedTitle,
     });
 
@@ -131,10 +136,9 @@ const Modify = (props) => {
           <img src={file} alt="image" />
         </div>
       )}
+      <div>{urlImg && <img src={urlImg} />}</div>
       <button className={styles.imageButton}>등록</button>
-      <span>
-        {editedContent} {editedTitle}
-      </span>
+      <span>{urlImg}</span>
     </div>
   );
 };
