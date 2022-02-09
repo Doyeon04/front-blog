@@ -138,7 +138,7 @@ const Modify = (props) => {
       )}
       <div>{urlImg && <img src={urlImg} />}</div>
       <button className={styles.imageButton}>등록</button>
-      <span>{urlImg}</span>
+      <span>{urlImg}f</span>
     </div>
   );
 };
