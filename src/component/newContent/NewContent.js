@@ -19,7 +19,8 @@ const NewContent = (props) => {
   const [imgUrl, setUrlImg] =useState('')
   const onChangeTitle = (event) => setTitle(event.target.value);
   const onChangeContent = (event) => setContent(event.target.value);
-
+  const [inputFileName,setInputFileName] = useState("첨부 파일");
+ 
   console.log("title:", title);
   console.log("content:", content);
   
@@ -57,6 +58,7 @@ const NewContent = (props) => {
     setFile(URL.createObjectURL(e.target.files[0]));
     
     const img = e.target.files[0];
+    setInputFileName(img.name);
     const formData = new FormData();
     formData.append("multipartFile", img);
 
@@ -84,26 +86,34 @@ const NewContent = (props) => {
       <Header />
       <div className={styles.inputContainer}>
         <form>
-          <input className={styles.inputTitle} type="text" placeholder="제목을 입력하세요"  onChange={onChangeTitle}/>     
-          <textarea className={styles.inputContent} placeholder="내용을 입력하세요" onChange={onChangeContent}/>
-          <button className={styles.contentButton} onClick={submit}>등록</button>
+          <input className={styles.inputTitle}
+           type="text"
+            placeholder="제목을 입력하세요"
+             onChange={onChangeTitle}/>     
+          <textarea 
+          className={styles.inputContent}
+           placeholder="내용을 입력하세요"
+            onChange={onChangeContent}/>
         </form>
       </div>
-
-
-     
       <div className={styles.imageInputContainer}>
-        <img src = {imgUrl}/>
-      </div>
-
-      <div>
+        <form className={styles.imageInputFile}>
         <input
+          id="image_input"
           type="file"
           accept="image/jpg,image/png,image/jpeg,image/gif"
           name="profile_img"
           onChange={onChange}
         ></input>
+        <label for="image_input">
+          파일 선택
+        </label>
+        <input className={styles.upload_name} value={inputFileName} placeholder="첨부파일" maxLength={30}  onChange={onChange}></input>
+      </form>
+      <button className={styles.imageButton} onClick={submit}>등록</button>
       </div>
+      <div className={styles.inputFileImageDiv}>
+        <p>  </p>
       {
         file&&(
       <div>
@@ -111,7 +121,7 @@ const NewContent = (props) => {
       </div>
         )
       }
-      <button className={styles.imageButton} onClick={submit}>등록</button>
+      </div>
     </div>
   );
 };

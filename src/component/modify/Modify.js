@@ -7,7 +7,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { token } from "../Api";
-
+import newContentStyles from "../newContent/NewContent.module.css";
 const Modify = (props) => {
   //const token = localStorage.getItem("token");
 
@@ -23,7 +23,8 @@ const Modify = (props) => {
   const [file, setFile] = useState("");
   const [urlImg, setUrlImg] = useState(imgUrl); //img url
   const [postContent, setPostContent] = useState();
-
+  const [inputFileName,setInputFileName] = useState("첨부 파일");
+  
   console.log(imgUrl);
 
   const onEditChangeTitle = (e) => {
@@ -73,8 +74,10 @@ const Modify = (props) => {
   const onChange = (e) => {
     e.preventDefault();
     setFile(URL.createObjectURL(e.target.files[0]));
-
-    const img = e.target.files[0];
+   
+    const img = e.target.files[0]; 
+    setInputFileName(img.name);
+    console.log(img);
     const formData = new FormData();
     formData.append("multipartFile", img);
     return axios
@@ -93,52 +96,53 @@ const Modify = (props) => {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={newContentStyles.container}>
       <Header />
-      <Form className={styles.Form}>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-          <Form.Label>제목</Form.Label>
-          <Form.Control
+      <div className={newContentStyles.inputContainer}>
+      <form>
+          <input
+            className={newContentStyles.inputTitle}
             type="text"
-            placeholder="name@example.com"
             onChange={onEditChangeTitle}
             value={editedTitle}
           />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-          <Form.Label>내용</Form.Label>
-          <Form.Control
+          <textarea
             value={editedContent}
             onChange={onEditChangeContent}
-            className="form-control"
-            as="textarea"
-            placeholder="example"
-            rows={15}
-            style={{
-              outLine: "none",
-              color: "red",
-              border: "0",
-            }}
+            className={newContentStyles.inputContent} 
           />
-        </Form.Group>
-      </Form>
-      <Button onClick={Submit}>등록</Button>
-      <div>
-        <input
+     </form>
+      </div>
+      <div className={newContentStyles.imageInputContainer}>
+        
+       <form className={newContentStyles.imageInputFile}>
+        
+        <input 
+          id="image_input"
+          className={newContentStyles.imageButton}
           type="file"
           accept="image/jpg,image/png,image/jpeg,image/gif"
           name="profile_img"
           onChange={onChange}
+          
         ></input>
-      </div>
-      {file && (
+        <label for="image_input">
+          파일 선택
+        </label>
+        <input className={newContentStyles.upload_name} value={inputFileName} placeholder="첨부파일" maxLength={30}  onChange={onChange}></input>
+      </form>  
+     
+      <button className={newContentStyles.imageButton} onClick={Submit}>등록</button>
+      
+     </div>
+     <div className={newContentStyles.inputFileImageDiv}>
+       <p>   </p>
+     {urlImg && (
         <div>
-          <img src={file} alt="image" />
+          <img src={urlImg} alt="image" />
         </div>
       )}
-      <div>{urlImg && <img src={urlImg} />}</div>
-      <button className={styles.imageButton}>등록</button>
-      <span>{urlImg}</span>
+      </div>
     </div>
   );
 };
