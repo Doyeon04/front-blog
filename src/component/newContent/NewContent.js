@@ -9,26 +9,22 @@ import { useState, useEffect } from "react";
 import { token } from "../Api";
 
 const NewContent = (props) => {
-  
   let navigate = useNavigate();
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [file, setFile] = useState("");
   const [imageFile, setImageFile] = useState("");
-  const [imgUrl, setUrlImg] =useState('')
+  const [imgUrl, setUrlImg] = useState("");
   const onChangeTitle = (event) => setTitle(event.target.value);
   const onChangeContent = (event) => setContent(event.target.value);
 
-  console.log("title:", title);
-  console.log("content:", content);
-  
-  const str = 'https://blog-img-store2.s3.ap-northeast-2.amazonaws.com/';
+  const str = "https://blog-img-store2.s3.ap-northeast-2.amazonaws.com/";
 
   const submit = () => {
     var axios = require("axios");
     var data = JSON.stringify({
-      content: imgUrl +' '+ content,
+      content: imgUrl + " " + content,
       title: title,
     });
 
@@ -55,7 +51,7 @@ const NewContent = (props) => {
   const onChange = (e) => {
     e.preventDefault();
     setFile(URL.createObjectURL(e.target.files[0]));
-    
+
     const img = e.target.files[0];
     const formData = new FormData();
     formData.append("multipartFile", img);
@@ -63,37 +59,41 @@ const NewContent = (props) => {
     return axios
       .post("http://localhost:8080/api/img/s3/posts/upload", formData, {
         headers: {
-          
           Authorization: "Bearer " + token,
         },
       })
       .then((res) => {
-
-       console.log(res.data);
-       setUrlImg(res.data)
+        setUrlImg(res.data);
       })
       .catch((err) => {
         alert("실패");
       });
   };
 
-  
-
   return (
     <div className={styles.container}>
       <Header />
       <div className={styles.inputContainer}>
         <form>
-          <input className={styles.inputTitle} type="text" placeholder="제목을 입력하세요"  onChange={onChangeTitle}/>     
-          <textarea className={styles.inputContent} placeholder="내용을 입력하세요" onChange={onChangeContent}/>
-          <button className={styles.contentButton} onClick={submit}>등록</button>
+          <input
+            className={styles.inputTitle}
+            type="text"
+            placeholder="제목을 입력하세요"
+            onChange={onChangeTitle}
+          />
+          <textarea
+            className={styles.inputContent}
+            placeholder="내용을 입력하세요"
+            onChange={onChangeContent}
+          />
+          <button className={styles.contentButton} onClick={submit}>
+            등록
+          </button>
         </form>
       </div>
 
-
-     
       <div className={styles.imageInputContainer}>
-        <img src = {imgUrl}/>
+        <img src={imgUrl} />
       </div>
 
       <div>
@@ -104,14 +104,14 @@ const NewContent = (props) => {
           onChange={onChange}
         ></input>
       </div>
-      {
-        file&&(
-      <div>
-        <img src = {file}  alt = "image"/>
-      </div>
-        )
-      }
-      <button className={styles.imageButton} onClick={submit}>등록</button>
+      {file && (
+        <div>
+          <img src={file} alt="image" />
+        </div>
+      )}
+      <button className={styles.imageButton} onClick={submit}>
+        등록
+      </button>
     </div>
   );
 };

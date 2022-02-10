@@ -7,33 +7,11 @@ import Masonry from "react-masonry-css";
 import { Link } from "react-router-dom";
 import PostDetail from "../PostDetail";
 import { token } from "../Api";
-import ItemDetail from '../itemDetail/itemDetail.jsx'
+import ItemDetail from "../itemDetail/itemDetail.js";
 
 const Content = (props) => {
   const [items, setItems] = useState([]);
   //const token = localStorage.getItem("token");
-
-  /*
-  for (let i = 132; i < 135; i++) {
-
-     let i = 0;
-
-     
-    axios
-      .delete(`http://localhost:8080/api/posts/${i}`)
-      .then((response) => {
-        // handle success
-        console.log(response);
-      })
-      .catch((error) => {
-        // handle error
-        console.log(error);
-      })
-      .then(() => {
-        // always executed
-      });
-  }
-  */
 
   useEffect(() => {
     /* axios
@@ -90,14 +68,16 @@ const Content = (props) => {
 
   return (
     <div className={styles.container}>
-     
-        <div className={styles.masonry_container}>
-          {items.map((item) => (
-            <Link style = { {textDecoration: 'none'}}to={`/${item.postsId}`} state={{ title: item.title }}>
-                <ItemDetail item = {item}/>  
-            </Link>
-          ))}
-       
+      <div className={styles.masonry_container}>
+        {items.map((item) => (
+          <Link
+            style={{ textDecoration: "none" }}
+            to={`/${item.postsId}`}
+            state={{ title: item.title }}
+          >
+            <ItemDetail item={item} content={item.content} />
+          </Link>
+        ))}
       </div>
     </div>
   );
