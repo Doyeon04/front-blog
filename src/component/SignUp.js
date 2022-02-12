@@ -80,7 +80,7 @@ function SignUp() {
   }
   return (
     <Container>
-      <Header />
+      <Header name="SignUp" />
       <form type="submit" onSubmit={enroll} style={{ width: 300 }}>
         <h2
           style={{

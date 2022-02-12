@@ -123,7 +123,7 @@ function PostDetail(props) {
     console.log(`http://localhost:8080/api/posts/${postId}`);
 
     var axios = require("axios");
-    var data = JSON.stringify({});
+   // var data = JSON.stringify({});
 
     var config = {
       method: "get",
@@ -132,7 +132,7 @@ function PostDetail(props) {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
       },
-      data: data,
+   //   data: data,
     };
 
     axios(config)
@@ -142,15 +142,16 @@ function PostDetail(props) {
 
         let result = response.data.replyResponseList;
         const str = response.data.content.split(" ");
-
+        
         if (
           str[0].includes(
             "https://blog-img-store2.s3.ap-northeast-2.amazonaws.com"
           )
         ) {
           const urlImage = str[0];
-          setContent(str.slice(1).join(" ").toString());
+          const onlyContent = str.slice(1).join(" ").toString();
 
+          setContent(str.slice(1).join(" ").toString());
           setImgUrl(urlImage);
         } else {
           setContent(response.data.content);
@@ -216,14 +217,14 @@ function PostDetail(props) {
   };
   const replySubmit = () => {
     let text = textRef.current.value;
-    textRef.current.value = "";
+    textRef.current.value = "";//textRef의 현재값을 비워줌 input value를 비워줌
 
     var axios = require("axios");
     var data = JSON.stringify({
       content: text,
       parentReplyId: 0,
       postId: postId,
-    });
+    });//댓글 내용과 부모 댓글 아이디를 보냄 얘는 부모 댓글이고 대댓글이 아니니까 parentReplyId는 0으로 지정
 
     var config = {
       method: "post",
@@ -350,8 +351,12 @@ function PostDetail(props) {
             <div className={styles.img_container}>
               <img src={imgUrl} />
             </div>
-
-            {content}
+         {
+            content?.split('\n').map((line,index)=>{
+                 return <p>{line}<br/> </p>
+              })
+            }
+          
           </div>
 
           <CommentContainer>

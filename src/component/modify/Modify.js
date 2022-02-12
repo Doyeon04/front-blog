@@ -22,7 +22,7 @@ const Modify = (props) => {
 
   const [file, setFile] = useState("");
   const [urlImg, setUrlImg] = useState(imgUrl); //img url
-  const [postContent, setPostContent] = useState();
+
   const [inputFileName,setInputFileName] = useState("첨부 파일");
   
   console.log(imgUrl);
@@ -73,7 +73,7 @@ const Modify = (props) => {
 
   const onChange = (e) => {
     e.preventDefault();
-    setFile(URL.createObjectURL(e.target.files[0]));
+   // setFile(URL.createObjectURL(e.target.files[0]));
    
     const img = e.target.files[0]; 
     setInputFileName(img.name);

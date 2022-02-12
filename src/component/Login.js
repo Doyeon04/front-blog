@@ -80,7 +80,7 @@ function Login() {
   };
   return (
     <Container>
-      <Header />
+      <Header name="Login" />
       <LoginForm>
         <h2
           style={{
