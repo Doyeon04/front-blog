@@ -1,34 +1,34 @@
 .itemDetail_container{
-    width: 92%;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #bdc3c7;
-    margin-top: 20px;
-    background-color: white;
-    transition: all .2s ease-in-out;
+  width: 92%;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #bdc3c7;
+  margin-top: 20px;
+  background-color: white;
+  transition: all .2s ease-in-out;
 }
 .itemDetail_container:hover{
-  transform: scale(1.05);
+transform: scale(1.05);
 }
 .item_container{
-  margin-bottom: 70px;
+margin-bottom: 70px;
 }
 
 .item_container h3{
-  color: black;
-  line-height: 2.2rem;
-  border-bottom: 0;
-  font-family: 'Source Serif 4', sans-serif;
+color: black;
+line-height: 2.2rem;
+border-bottom: 0;
+font-family: 'Source Serif 4', sans-serif;
 }
 
 .item_container p {
-  color: grey;
+color: grey;
 }
 .comments_box{
-  border-top: 1px solid grey;
-  padding: 15px;
-  color: grey;
+border-top: 1px solid grey;
+padding: 15px;
+color: grey;
 }
 .comments_number{
-  margin-right: 8px;
+margin-right: 8px;
 }

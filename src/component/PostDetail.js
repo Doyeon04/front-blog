@@ -141,27 +141,35 @@ function PostDetail(props) {
         console.log("getResponse에서 받아옴:", response.data.replyResponseList); // 이게 comments임
 
         let result = response.data.replyResponseList;
-        const str = response.data.content.split(" ");
-        
-        if (
-          str[0].includes(
-            "https://blog-img-store2.s3.ap-northeast-2.amazonaws.com"
-          )
-        ) {
-          const urlImage = str[0];
-          const onlyContent = str.slice(1).join(" ").toString();
+        const str = response.data.content.split(",");
+        const urls = str[0].split(" ")
+        const content = str[1];
 
-          setContent(str.slice(1).join(" ").toString());
-          setImgUrl(urlImage);
-        } else {
-          setContent(response.data.content);
-        }
+        console.log(urls);
+        console.log(content);
+        setContent(content);
+        setImgUrl(urls)
+        
+        // if (
+        //   str[0].includes(
+        //     "https://blog-img-store2.s3.ap-northeast-2.amazonaws.com"
+        //   )
+        // ) {
+        //   const urlImage = str[0];
+        //   setContent(str.slice(1).join(" ").toString());
+
+        //   setImgUrl(urlImage);
+        // } else {
+        //   setContent(response.data.content);
+        // }
+        
 
         countReply(response.data.replyResponseList);
         setWriter(response.data.userInfo.username);
         setPostTime(response.data.chgDt);
         setComments(result);
         setTitle(response.data.title);
+
       })
       .catch(function (error) {
         console.log(error);
@@ -349,7 +357,9 @@ function PostDetail(props) {
           </div>
           <div className={styles.postContent}>
             <div className={styles.img_container}>
-              <img src={imgUrl} />
+            {imgUrl && (
+              imgUrl.map(url => <img src = {url}/>)
+             )}
             </div>
          {
             content?.split('\n').map((line,index)=>{

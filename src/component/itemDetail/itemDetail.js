@@ -5,9 +5,9 @@ const ItemDetail = ({ item }) => {
   const [replyNum, setReplyNum] = useState();
 
   const str = item.content.split(" ");
-  const itemContent = str.slice(1).join(" ").toString();
+  const itemContent = str.slice(str.length).join(" ").toString();
   const replyList = item.replyResponseList;
-
+  const title = item.title.split("");
   useEffect(() => {
     const eachChildReply = replyList.map(
       (reply) => reply.childReplyDtoList.length
@@ -26,8 +26,10 @@ const ItemDetail = ({ item }) => {
   return (
     <div className={styles.itemDetail_container}>
       <div className={styles.item_container}>
-        <h3>{item.title}</h3>
-        <p>{itemContent}</p>
+        <h3 className="title-box">
+          {title.length > 70 ? title.slice(0, 70).join("") + "..." : title}
+        </h3>
+        <p className="content-box">{itemContent}</p>
       </div>
       <div className={styles.comments_box}>
         <span className={styles.comments_number}>{replyNum}</span>
