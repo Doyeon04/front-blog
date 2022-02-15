@@ -60,7 +60,7 @@ const NewContent = (props) => {
     setInputFileName(img.name);
     const formData = new FormData(); //이미지 객체
     formData.append("multipartFile", img); //이렇게 하면 인코딩 필요x
-
+    
     return (
       axios
         .post("http://localhost:8080/api/img/s3/posts/upload", formData, {
