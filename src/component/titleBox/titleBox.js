@@ -5,7 +5,6 @@ const TitleBox = (props) => {
     <div className={styles.container}>
       <div className={styles.whiteBox}>
         <span>Blog Story</span>
-       
       </div>
     </div>
   );

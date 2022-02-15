@@ -6,7 +6,7 @@ import Content from "../component/content/Content";
 const Home = (props) => {
   return (
     <div>
-      <Header></Header>
+      <Header name="Home"></Header>
       <TitleBox></TitleBox>
       <Content></Content>
     </div>

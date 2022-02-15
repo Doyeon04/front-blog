@@ -7,7 +7,7 @@
   align-items: center;
 }
 
-.masonry_container{
+.masonry_container {
   width: 80%;
   height: auto;
   max-width: 700px;
@@ -15,5 +15,4 @@
   gap: 10px;
   grid-template-columns: repeat(2, minmax(120px, 1fr));
   grid-template-rows: masonry;
-  
 }
