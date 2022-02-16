@@ -19,7 +19,7 @@ const Modify = (props) => {
 
   const [editedTitle, setEditedTitle] = useState(baseTitle);
   const [editedContent, setEditedContent] = useState(baseContent);
-
+  console.log("basecontent: ",baseContent);
   const [file, setFile] = useState("");
   const [urlImg, setUrlImg] = useState(imgUrl); //img url
 
@@ -35,19 +35,17 @@ const Modify = (props) => {
     setEditedContent(e.target.value);
   };
 
+  useEffect(()=>{
+
+  },[]);
   const Submit = () => {
     console.log(urlImg);
     console.log("editedContet:", editedContent);
 
     var axios = require("axios");
-
+    const urlImgString = urlImg.join(' ');
     var data = JSON.stringify({
-      content: urlImg.includes(
-        "https://blog-img-store2.s3.ap-northeast-2.amazonaws.com"
-      )
-        ? urlImg + " " + editedContent
-        : editedContent,
-
+      content: urlImgString + "," + editedContent,
       title: editedTitle,
     });
 
@@ -88,7 +86,7 @@ const Modify = (props) => {
       })
       .then((res) => {
         console.log(res.data);
-        setUrlImg(res.data);
+        setUrlImg([...urlImg, res.data]);
       })
       .catch((err) => {
         alert("실패");
@@ -138,9 +136,7 @@ const Modify = (props) => {
      <div className={newContentStyles.inputFileImageDiv}>
        <p>   </p>
      {urlImg && (
-        <div>
-          <img src={urlImg} alt="image" />
-        </div>
+           urlImg.map((url)=> <div className = {newContentStyles.image}><img src= {url} /></div>)
       )}
       </div>
     </div>

@@ -59,7 +59,7 @@ const NewContent = (props) => {
     setFile(URL.createObjectURL(e.target.files[0]));
     
     const img = e.target.files[0];
-    console.log("img :::: ",img);
+    
     setInputFileName(img.name);
     const formData = new FormData();//이미지 객체 
     formData.append("multipartFile", img);//이렇게 하면 인코딩 필요x
@@ -74,13 +74,9 @@ const NewContent = (props) => {
       .then((res) => {
        console.log(res.data);//response로 날라와서 
        setUrlImg([...imgUrl, res.data]);
-
-       
       })//이미지 전송 -> 로컬서버에 이미지파일 자체가 저장 -> s3에 올리기 
       //이미지 ,파일을 저장,관리 s3 = storage3 저장고
       //s3에서 프론트에 다시 image url 전송
-    
-   
       .catch((err) => {
         alert("실패");
       });
@@ -107,6 +103,14 @@ const NewContent = (props) => {
         </form>
       </div>
       <div className={styles.imageInputContainer}>
+      <div className={styles.inputFileImageDiv}>
+      
+      {  
+           imgUrl&&(
+             imgUrl.map((url)=> <div className = {styles.image}><img src= {url} /></div>)
+           )
+         }
+       </div>
         <form className={styles.imageInputFile}>
         <input
           id="image_input"
@@ -115,21 +119,15 @@ const NewContent = (props) => {
           name="profile_img"
           onChange={onChange}
         ></input>
+        {/* onChange함수 호출하면   */}
         <label for="image_input">
-          파일 선택
-        </label>
+          파일 선택 
+        </label>  
         <input className={styles.upload_name} value={inputFileName} placeholder="첨부파일" maxLength={30}  onChange={onChange}></input>
       </form>
       <button className={styles.imageButton} onClick={submit}>등록</button>
       </div>
-      <div className={styles.inputFileImageDiv}>
-        <p>  </p>
-     {
-          imgUrl&&(
-            imgUrl.map((url)=> <div className = {styles.image}><img src= {url} /></div>)
-          )
-        }
-      </div>
+   
     </div>
   );
 };
