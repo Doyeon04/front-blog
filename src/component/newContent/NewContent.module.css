@@ -3,13 +3,18 @@ body {
 }
 .container {
   display: flex;
-  justify-content: center;
+
+  margin-top: 80px;
   align-items: center;
   flex-direction: column;
   height: 1500px;
-  
   position: relative;
   background-color: rgb(248, 248, 248);
+}
+.imageAndInput {
+  display: flex;
+  width: 80%;
+  margin: 30px 0px;
 }
 .Form {
   width: 80%;
@@ -44,29 +49,28 @@ Button {
 
 .inputContainer {
   width: 80%;
-  height: 650px;
-  
+  height: auto;
 }
 .inputTitle {
   width: 100%;
   font-size: 25px;
   background-color: rgb(248, 248, 248);
-  padding:15px;
-  border:none;
-  border-bottom:1px solid rgb(199, 199, 199);
+  padding: 15px;
+  border: none;
+  border-bottom: 1px solid rgb(199, 199, 199);
   margin-bottom: 5px;
   color: rgb(0, 0, 0);
-
 }
 .inputContent {
   width: 100%;
-  height: 500px;
+  height: 400px;
   resize: none;
-  padding:15px;
-  border:none;
+  padding: 15px;
+  border: none;
   font-size: 20px;
   color: rgb(0, 0, 0);
   background-color: rgb(248, 248, 248);
+  border-bottom: 1px solid rgb(199, 199, 199);
 }
 .inputTitle:focus,
 .inputContent:focus {
@@ -74,7 +78,6 @@ Button {
 }
 .contentButton {
   width: 150px;
-
   border: none;
   display: inline-block;
   padding: 15px 30px;
@@ -87,42 +90,45 @@ Button {
   background-color: aliceblue;
   color: #1e6b7b;
   width: 100px;
-  margin: 0px 20px;
+  margin-bottom: 30px;
 }
 .imageButton {
-  width: 150px;
+  width: 100px;
   display: block;
   border: none;
-  padding: 15px 30px;
+  padding: 15px 20px;
   border-radius: 15px;
   font-family: "paybooc-Light", sans-serif;
   font-size: 15px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
   text-decoration: none;
   font-weight: 600;
   transition: 0.25s;
   background-color: aliceblue;
   color: #1e6b7b;
+  margin: 0 auto;
+}
 
-  margin: 0px 20px;
+.imageButton:hover {
+  letter-spacing: 2px;
+  cursor: pointer;
+  transform: scale(1.05);
 }
 .imageInputContainer {
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
-  height:50px;
-  width:750px;
+  height: auto;
+  width: 750px;
 }
-.Btn:hover {
-  letter-spacing: 2px;
-  transform: scale(1.2);
-  cursor: pointer;
-}
-.imageInputFile{
-  display:flex;
-  width:500px;
+
+.imageInputFileForm {
+  display: flex;
+  width: 100%;
   align-items: center;
+  justify-content: center;
 }
-.imageInputFile input[type="file"]{
+.imageInputFileForm input[type="file"] {
   width: 0;
   height: 0;
   padding: 0;
@@ -130,44 +136,69 @@ Button {
   border: none;
 }
 
-.imageInputFile label{
-  width: 130px;
-  height:50px;
+.imageInputFileForm label {
+  /*  width: 130px;
+  height: 50px;
   display: block;
   border: none;
+  border-radius: 15px;
   padding: 15px 30px;
-  cursor:pointer;
+  cursor: pointer;
   font-family: "paybooc-Light", sans-serif;
   font-size: 15px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
   text-decoration: none;
   font-weight: 600;
   transition: 0.25s;
   background-color: aliceblue;
   color: #1e6b7b;
-  margin-right:2px;
-}
-
-.imageInputFile > .upload_name{
-  font-size:15px;
-  height:50px;
-  width:300px;
-  
-}
-.inputFileImageDiv{
-
-  height:500px;
-  width:50%;
-}
-.inputFileImageDiv div{
- 
+  margin-right: 2px; */
+  width: 80px;
+  height: 30px;
+  font-size: 12px;
+  border: none;
+  border-radius: 4px;
+  background-color: #b4d8e7;
+  color: white;
+  margin: auto 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  
+  padding: 4px 0px;
+  transition: 0.25s;
+  cursor: pointer;
+  margin-bottom: 20px;
 }
-.inputFileImageDiv img{
-  height:70%;
-  width:70%;
 
+.imageInputFileForm label:hover {
+  transform: scale(1.05);
+}
+
+.imageInputFile > .upload_name {
+  font-size: 15px;
+  height: 50px;
+  width: 300px;
+}
+.inputFileImageDiv {
+  height: 400px;
+  width: 100%;
+  display: flex;
+  text-align: center;
+  margin: 30px 0px;
+  flex-direction: column;
+  overflow: auto;
+}
+
+.inputFileImageDiv::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera*/
+}
+
+.inputFileImageDiv div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.inputFileImageDiv img {
+  height: 100%;
+  width: 100%;
 }

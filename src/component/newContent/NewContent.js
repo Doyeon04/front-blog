@@ -74,6 +74,8 @@ const NewContent = (props) => {
         .then((res) => {
           console.log(res.data); //response로 날라와서
           setUrlImg([...imgUrl, res.data]);
+          console.log(typeof imgUrl);
+          console.log(imgUrl);
         }) //이미지 전송 -> 로컬서버에 이미지파일 자체가 저장 -> s3에 올리기
         //이미지 ,파일을 저장,관리 s3 = storage3 저장고
         //s3에서 프론트에 다시 image url 전송
@@ -85,29 +87,43 @@ const NewContent = (props) => {
   };
   useEffect(() => {
     setFileUrl(imgUrl.join(" "));
-    console.log(fileUrl);
+    console.log("fileUrl:", fileUrl);
   }, [imgUrl]);
 
   return (
     <div className={styles.container}>
       <Header name="NewContent" />
-      <div className={styles.inputContainer}>
-        <form>
-          <input
-            className={styles.inputTitle}
-            type="text"
-            placeholder="제목을 입력하세요"
-            onChange={onChangeTitle}
-          />
-          <textarea
-            className={styles.inputContent}
-            placeholder="내용을 입력하세요"
-            onChange={onChangeContent}
-          />
-        </form>
+      <div className={styles.imageAndInput}>
+        <div className={styles.inputContainer}>
+          <form>
+            <input
+              className={styles.inputTitle}
+              type="text"
+              placeholder="제목을 입력하세요"
+              onChange={onChangeTitle}
+            />
+            <div className={styles.contentImage} style={{ display: "flex" }}>
+              <textarea
+                style={{ width: "900px" }}
+                className={styles.inputContent}
+                placeholder="내용을 입력하세요"
+                onChange={onChangeContent}
+              />
+            </div>
+          </form>
+        </div>
+        <div className={styles.inputFileImageDiv}>
+          {imgUrl &&
+            imgUrl.map((url) => (
+              <div className={styles.oneImage}>
+                <img src={url} />
+              </div>
+            ))}
+        </div>
       </div>
+
       <div className={styles.imageInputContainer}>
-        <form className={styles.imageInputFile}>
+        <form className={styles.imageInputFileForm}>
           <input
             id="image_input"
             type="file"
@@ -116,26 +132,20 @@ const NewContent = (props) => {
             onChange={onChange}
           ></input>
           <label for="image_input">파일 선택</label>
-          <input
+
+          {/*    <input
             className={styles.upload_name}
             value={inputFileName}
             placeholder="첨부파일"
             maxLength={30}
             onChange={onChange}
-          ></input>
+          ></input> */}
         </form>
-        <button className={styles.imageButton} onClick={submit}>
-          등록
-        </button>
-      </div>
-      <div className={styles.inputFileImageDiv}>
-        <p> </p>
-        {imgUrl &&
-          imgUrl.map((url) => (
-            <div className={styles.image}>
-              <img src={url} />
-            </div>
-          ))}
+        <div>
+          <button className={styles.imageButton} onClick={submit}>
+            등록
+          </button>
+        </div>
       </div>
     </div>
   );
