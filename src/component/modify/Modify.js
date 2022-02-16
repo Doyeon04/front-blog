@@ -19,7 +19,7 @@ const Modify = (props) => {
 
   const [editedTitle, setEditedTitle] = useState(baseTitle);
   const [editedContent, setEditedContent] = useState(baseContent);
-
+  console.log("basecontent: ", baseContent);
   const [file, setFile] = useState("");
   const [urlImg, setUrlImg] = useState(imgUrl); //img url
 
@@ -35,19 +35,15 @@ const Modify = (props) => {
     setEditedContent(e.target.value);
   };
 
+  useEffect(() => {}, []);
   const Submit = () => {
     console.log(urlImg);
     console.log("editedContet:", editedContent);
 
     var axios = require("axios");
-
+    const urlImgString = urlImg.join(" ");
     var data = JSON.stringify({
-      content: urlImg.includes(
-        "https://blog-img-store2.s3.ap-northeast-2.amazonaws.com"
-      )
-        ? urlImg + " " + editedContent
-        : editedContent,
-
+      content: urlImgString + "," + editedContent,
       title: editedTitle,
     });
 
@@ -88,7 +84,7 @@ const Modify = (props) => {
       })
       .then((res) => {
         console.log(res.data);
-        setUrlImg(res.data);
+        setUrlImg([...urlImg, res.data]);
       })
       .catch((err) => {
         alert("실패");
@@ -105,6 +101,7 @@ const Modify = (props) => {
               className={styles.inputTitle}
               type="text"
               placeholder="제목을 입력하세요"
+              value={editedTitle}
               onChange={onEditChangeTitle}
             />
             <div className={styles.contentImage} style={{ display: "flex" }}>
@@ -113,6 +110,7 @@ const Modify = (props) => {
                 className={styles.inputContent}
                 placeholder="내용을 입력하세요"
                 onChange={onEditChangeContent}
+                value={editedContent}
               />
             </div>
           </form>
