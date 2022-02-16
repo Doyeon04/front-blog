@@ -6,7 +6,7 @@ import Header from "../header/Header";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { token } from "../Api";
+import { token, URL as myURL } from "../Api";
 
 const NewContent = (props) => {
   let navigate = useNavigate();
@@ -35,7 +35,7 @@ const NewContent = (props) => {
 
     var config = {
       method: "post",
-      url: "http://localhost:8080/api/posts",
+      url: myURL + "posts",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
@@ -65,14 +65,14 @@ const NewContent = (props) => {
 
     return (
       axios
-        .post("http://localhost:8080/api/img/s3/posts/upload", formData, {
+        .post(myURL + "img/s3/posts/upload", formData, {
           headers: {
             //formdata쓰려면 contentType 안써야 됨
             Authorization: "Bearer " + token,
           },
         })
         .then((res) => {
-          console.log(res.data); //response로 날라와서
+          //response로 날라와서
           setUrlImg([...imgUrl, res.data]);
         }) //이미지 전송 -> 로컬서버에 이미지파일 자체가 저장 -> s3에 올리기
         //이미지 ,파일을 저장,관리 s3 = storage3 저장고
@@ -84,7 +84,6 @@ const NewContent = (props) => {
   };
   useEffect(() => {
     setFileUrl(imgUrl.join(" "));
-    console.log("fileUrl:", fileUrl);
   }, [imgUrl]);
 
   return (

@@ -17,8 +17,8 @@ function App() {
         <Route path="/" element={<Home />}></Route>
         <Route path="/writeContent" element={<NewContent />}></Route>
         <Route path="/:postId" element={<PostDetail />}></Route>
-         <Route path="/modify" element={<Modify />}></Route>
-         <Route path="/Login" element={<Login />}></Route>     
+        <Route path="/modify" element={<Modify />}></Route>
+        <Route path="/Login" element={<Login />}></Route>
         <Route path="/SignUp" element={<SignUp />}></Route>
       </Routes>
     </BrowserRouter>

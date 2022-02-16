@@ -6,7 +6,7 @@ import Header from "./header/Header";
 import styles from "./PostDetail.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import Content from "./content/Content";
-import { token } from "./Api";
+import { token, URL } from "./Api";
 import styled from "styled-components";
 
 const CommentInput = styled.textarea`
@@ -123,7 +123,7 @@ function PostDetail(props) {
     console.log(`http://localhost:8080/api/posts/${postId}`);
 
     var axios = require("axios");
-   // var data = JSON.stringify({});
+    // var data = JSON.stringify({});
 
     var config = {
       method: "get",
@@ -132,44 +132,24 @@ function PostDetail(props) {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
       },
-   //   data: data,
+      //   data: data,
     };
 
     axios(config)
       .then(function (response) {
-        console.log(response.data);
-        console.log("getResponse에서 받아옴:", response.data.replyResponseList); // 이게 comments임
-
         let result = response.data.replyResponseList;
         const str = response.data.content.split(",");
-        const urls = str[0].split(" ")
+        const urls = str[0].split(" ");
         const content = str[1];
 
-        console.log(urls);
-        console.log(content);
         setContent(content);
-        setImgUrl(urls)
-        
-        // if (
-        //   str[0].includes(
-        //     "https://blog-img-store2.s3.ap-northeast-2.amazonaws.com"
-        //   )
-        // ) {
-        //   const urlImage = str[0];
-        //   setContent(str.slice(1).join(" ").toString());
-
-        //   setImgUrl(urlImage);
-        // } else {
-        //   setContent(response.data.content);
-        // }
-        
+        setImgUrl(urls);
 
         countReply(response.data.replyResponseList);
         setWriter(response.data.userInfo.username);
         setPostTime(response.data.chgDt);
         setComments(result);
         setTitle(response.data.title);
-
       })
       .catch(function (error) {
         console.log(error);
@@ -186,7 +166,7 @@ function PostDetail(props) {
 
     var config = {
       method: "delete",
-      url: `http://localhost:8080/api/posts/${postId}`,
+      url: URL + `posts/${postId}`,
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
@@ -225,18 +205,18 @@ function PostDetail(props) {
   };
   const replySubmit = () => {
     let text = textRef.current.value;
-    textRef.current.value = "";//textRef의 현재값을 비워줌 input value를 비워줌
+    textRef.current.value = ""; //textRef의 현재값을 비워줌 input value를 비워줌
 
     var axios = require("axios");
     var data = JSON.stringify({
       content: text,
       parentReplyId: 0,
       postId: postId,
-    });//댓글 내용과 부모 댓글 아이디를 보냄 얘는 부모 댓글이고 대댓글이 아니니까 parentReplyId는 0으로 지정
+    }); //댓글 내용과 부모 댓글 아이디를 보냄 얘는 부모 댓글이고 대댓글이 아니니까 parentReplyId는 0으로 지정
 
     var config = {
       method: "post",
-      url: "http://localhost:8080/api/reply",
+      url: URL + "reply",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
@@ -260,14 +240,9 @@ function PostDetail(props) {
     setChildReply((current) => !current);
     setClickChildReply(replyId);
     //getResponse();
-    console.log("클릭한 +버튼", replyId);
   };
 
   const [childReplyTyping, setChildReplyType] = useState();
-
-  /* const postChildReply = (e) => {
-    setChildReplyType(e.target.value);
-  }; */
 
   const childReplySubmit = (e) => {
     // 자식 댓글 등록하기
@@ -275,7 +250,7 @@ function PostDetail(props) {
     setChildReply(false);
 
     e.preventDefault();
-    console.log("자식 댓글 담");
+
     var axios = require("axios");
     var data = JSON.stringify({
       content: childReplyTyping,
@@ -285,7 +260,7 @@ function PostDetail(props) {
 
     var config = {
       method: "post",
-      url: "http://localhost:8080/api/reply",
+      url: URL + "reply",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
@@ -310,7 +285,7 @@ function PostDetail(props) {
 
     var config = {
       method: "delete",
-      url: `http://localhost:8080/api/reply/${replyId}`,
+      url: URL + `reply/${replyId}`,
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
@@ -357,16 +332,16 @@ function PostDetail(props) {
           </div>
           <div className={styles.postContent}>
             <div className={styles.img_container}>
-            {imgUrl && (
-              imgUrl.map(url => <img src = {url}/>)
-             )}
+              {imgUrl && imgUrl.map((url) => <img src={url} />)}
             </div>
-         {
-            content?.split('\n').map((line,index)=>{
-                 return <p>{line}<br/> </p>
-              })
-            }
-          
+            {content?.split("\n").map((line, index) => {
+              return (
+                <p>
+                  {line}
+                  <br />{" "}
+                </p>
+              );
+            })}
           </div>
 
           <CommentContainer>

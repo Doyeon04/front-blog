@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import Masonry from "react-masonry-css";
 import { Link } from "react-router-dom";
 import PostDetail from "../PostDetail";
-import { token } from "../Api";
+import { token, URL } from "../Api";
 import ItemDetail from "../itemDetail/itemDetail.js";
 
 const Content = (props) => {
@@ -14,27 +14,12 @@ const Content = (props) => {
   //const token = localStorage.getItem("token");
 
   useEffect(() => {
-    /* axios
-      .get("http://localhost:8080/api/posts")
-      .then((response) => {
-        // response
-        console.log("content:", response);
-        console.log(response.data[0]);
-        setItems(response.data);
-        console.log(Object.values(response.data));
-      })
-      .catch((error) => {
-        // 오류발생시 실행
-      })
-      .then(() => {
-        // 항상 실행
-      }); */
     var axios = require("axios");
     var data = JSON.stringify({});
 
     var config = {
       method: "get",
-      url: "http://localhost:8080/api/posts",
+      url: URL + "posts",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
@@ -51,20 +36,6 @@ const Content = (props) => {
         console.log(error);
       });
   }, []);
-
-  //localhost:8080/api/posts/2
-  /* const datas = items.map(function (item) {
-    return (
-      <Link
-        to={{
-          pathname: `/${item.id}`,
-          state: { title: item.title },
-        }}
-      >
-        <div key={item.id}>{item.title}</div>
-      </Link>
-    );
-  }); */
 
   return (
     <div className={styles.container}>

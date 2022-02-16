@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import Header from "../component/header/Header";
 import styled from "styled-components";
+import { token, URL } from "./Api";
 
 const Container = styled.div`
   display: flex;
@@ -15,14 +16,19 @@ const Button = styled.button`
   border: none;
   padding: 5px;
   height: 35px;
+  background-color: #b4d8e7;
+  color: white;
 `;
 
 const Input = styled.input`
   width: 100%;
   margin: 5px 0px 14px 0px;
   height: 35px;
-  border: 1px solid gray;
+  border: 1px solid #d3d3d3;
   padding: 7px;
+  &:focus {
+    outline: none;
+  }
 `;
 
 function SignUp() {
@@ -63,7 +69,7 @@ function SignUp() {
 
     var config = {
       method: "post",
-      url: "http://localhost:8080/api/auth/signup",
+      url: URL + "auth/signup",
       headers: {
         "Content-Type": "application/json",
       },

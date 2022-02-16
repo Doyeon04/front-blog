@@ -2,6 +2,7 @@ import Header from "./header/Header.js";
 import TitleBox from "./titleBox/TitleBox.js";
 import styled from "styled-components";
 import React, { useEffect, useState } from "react";
+import { token, URL } from "./Api";
 
 const Container = styled.div`
   display: flex;
@@ -22,11 +23,12 @@ const Input = styled.input`
   margin: 5px 0px 14px 0px;
   height: 35px;
   border: none;
-  border-bottom: 1px solid gray;
+  border-bottom: 1px solid #d3d3d3;
   padding: 7px;
   &:focus {
     outline: none;
   }
+  color: #d3d3d3;
 `;
 
 const Button = styled.button`
@@ -34,6 +36,8 @@ const Button = styled.button`
   border: none;
   padding: 5px;
   height: 35px;
+  background-color: #b4d8e7;
+  color: white;
 `;
 function Login() {
   const [id, setId] = useState();
@@ -49,7 +53,7 @@ function Login() {
 
     var config = {
       method: "post",
-      url: "http://localhost:8080/api/auth/signin",
+      url: URL + "auth/signin",
       headers: {
         "Content-Type": "application/json",
       },

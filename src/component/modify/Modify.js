@@ -6,7 +6,7 @@ import Header from "../header/Header";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { token } from "../Api";
+import { token, URL } from "../Api";
 import styles from "../newContent/NewContent.module.css";
 const Modify = (props) => {
   //const token = localStorage.getItem("token");
@@ -19,14 +19,13 @@ const Modify = (props) => {
 
   const [editedTitle, setEditedTitle] = useState(baseTitle);
   const [editedContent, setEditedContent] = useState(baseContent);
-  console.log("basecontent: ", baseContent);
+
   const [file, setFile] = useState("");
   const [urlImg, setUrlImg] = useState(imgUrl); //img url
 
   const [inputFileName, setInputFileName] = useState("첨부 파일");
 
-  console.log(imgUrl);
-
+  console.log(urlImg);
   const onEditChangeTitle = (e) => {
     setEditedTitle(e.target.value);
   };
@@ -49,7 +48,7 @@ const Modify = (props) => {
 
     var config = {
       method: "put",
-      url: `http://localhost:8080/api/posts/${postId}`,
+      url: URL + `posts/${postId}`,
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + token,
@@ -77,7 +76,7 @@ const Modify = (props) => {
     const formData = new FormData();
     formData.append("multipartFile", img);
     return axios
-      .post("http://localhost:8080/api/img/s3/posts/upload", formData, {
+      .post(URL + "img/s3/posts/upload", formData, {
         headers: {
           Authorization: "Bearer " + token,
         },
@@ -116,12 +115,14 @@ const Modify = (props) => {
           </form>
         </div>
         <div className={styles.inputFileImageDiv}>
-          {imgUrl &&
-            imgUrl.map((url) => (
-              <div className={styles.oneImage}>
-                <img src={url} />
-              </div>
-            ))}
+          {urlImg.length > 1 &&
+            urlImg.map((url) =>
+              url !== "" ? (
+                <div className={styles.oneImage}>
+                  <img src={url} />
+                </div>
+              ) : null
+            )}
         </div>
       </div>
 
