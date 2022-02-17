@@ -3,9 +3,11 @@ import styles from "./itemDetail.module.css";
 
 const ItemDetail = ({ item }) => {
   const [replyNum, setReplyNum] = useState();
-
+  console.log(item.content);
   const str = item.content.split(" ");
+  console.log(str);
   const itemContent = str.slice(str.length).join(" ").toString();
+  console.log(itemContent);
   const replyList = item.replyResponseList;
   const title = item.title.split("");
   useEffect(() => {
