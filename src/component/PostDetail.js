@@ -140,7 +140,7 @@ function PostDetail(props) {
         let result = response.data.replyResponseList;
         const str = response.data.content.split(",");
         const urls = str[0].split(" ");
-        const content = str[1];
+        const content = str.slice(1).join('')
 
         setContent(content);
         setImgUrl(urls);
@@ -334,16 +334,15 @@ function PostDetail(props) {
             <div className={styles.img_container}>
               {imgUrl && imgUrl.map((url) => <img src={url} />)}
             </div>
+            <p>
             {content?.split("\n").map((line, index) => {
               return (
-                <p>
-                  {line}
-                  <br />{" "}
-                </p>
+                  <>{line} <br /></>
               );
             })}
+            </p>
           </div>
-
+            <div>
           <CommentContainer>
             <span style={{ color: "#1e6b7b" }}>댓글 {replyNum}</span>
             <CommentBox>
@@ -453,6 +452,7 @@ function PostDetail(props) {
               ))}
             </CommentsUl>
           </CommentContainer>
+          </div>
         </div>
       </div>
     </div>
