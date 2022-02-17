@@ -16,7 +16,7 @@
 .postContainer {
   margin-top: 100px;
   min-width: 1000px;
-  height: 800px;
+  height: auto;
 
   padding: 80px 100px;
   margin: auto 0;
