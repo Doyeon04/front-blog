@@ -21,11 +21,6 @@ const NewContent = (props) => {
   const onChangeContent = (event) => setContent(event.target.value);
   const [inputFileName, setInputFileName] = useState("첨부 파일");
 
-  console.log("title:", title);
-  console.log("content:", content);
-
-  const str = "https://blog-img-store2.s3.ap-northeast-2.amazonaws.com/";
-
   const submit = () => {
     var axios = require("axios");
     var data = JSON.stringify({

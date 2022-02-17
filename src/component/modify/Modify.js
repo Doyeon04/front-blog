@@ -10,7 +10,6 @@ import { token, URL } from "../Api";
 import styles from "../newContent/NewContent.module.css";
 const Modify = (props) => {
   //const token = localStorage.getItem("token");
-
   const baseTitle = useLocation().state.title;
   const baseContent = useLocation().state.content;
   const postId = useLocation().state.postId;
@@ -19,8 +18,6 @@ const Modify = (props) => {
 
   const [editedTitle, setEditedTitle] = useState(baseTitle);
   const [editedContent, setEditedContent] = useState(baseContent);
-
-  const [file, setFile] = useState("");
   const [urlImg, setUrlImg] = useState(imgUrl); //img url
 
   const [inputFileName, setInputFileName] = useState("첨부 파일");
@@ -115,7 +112,7 @@ const Modify = (props) => {
           </form>
         </div>
         <div className={styles.inputFileImageDiv}>
-          {urlImg.length > 1 &&
+          {urlImg.length > 0 &&
             urlImg.map((url) =>
               url !== "" ? (
                 <div className={styles.oneImage}>

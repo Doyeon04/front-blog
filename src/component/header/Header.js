@@ -38,7 +38,7 @@ const Header = (props) => {
       variant="light"
     >
       <div>
-        <Navbar.Brand href="/">blog</Navbar.Brand>
+        <Navbar.Brand href="/">BLOG</Navbar.Brand>
       </div>
       <div>
         <Nav className="me-auto">
