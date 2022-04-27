@@ -7,7 +7,7 @@ import Masonry from "react-masonry-css";
 import { Link } from "react-router-dom";
 import PostDetail from "../PostDetail";
 import { token } from "../Api";
-import ItemDetail from '../itemDetail/itemDetail.jsx'
+import ItemDetail from "../itemDetail/itemDetail.js";
 
 const Content = (props) => {
   const [items, setItems] = useState([]);
@@ -73,15 +73,19 @@ const Content = (props) => {
         console.log(error);
       });
   }, []);
-  
+
   return (
     <div className={styles.container}>
-        <div className={styles.masonry_container}>
-          {items.map((item) => (
-            <Link style = { {textDecoration: 'none'}}to={`/${item.postsId}`} state={{ title: item.title }}>
-                <ItemDetail item = {item}/>  
-            </Link>
-          ))}
+      <div className={styles.masonry_container}>
+        {items.map((item) => (
+          <Link
+            style={{ textDecoration: "none" }}
+            to={`/${item.postsId}`}
+            state={{ title: item.title }}
+          >
+            <ItemDetail item={item} />
+          </Link>
+        ))}
       </div>
     </div>
   );
